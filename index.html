@@ -1,0 +1,2839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ess-a-Bagel Complete Training Academy</title>
+    <style>
+        :root {
+            --primary-color: #083915;
+            --primary-light: #0a4a1a;
+            --primary-dark: #062B0F;
+            --secondary-color: #28a745;
+            --accent-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.15);
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="3" fill="rgba(255,255,255,0.05)"/><circle cx="40" cy="70" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            pointer-events: none;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .brand-logo {
+            display: inline-block;
+            font-size: 3rem;
+            margin-right: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .login-card {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            font-size: 16px;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(8,57,21,0.1);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(8,57,21,0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .btn-success {
+            background: var(--secondary-color);
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-warning {
+            background: var(--accent-color);
+            color: var(--text-dark);
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .btn-full {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .module-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .module-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .module-card.completed {
+            border-color: var(--secondary-color);
+            background: linear-gradient(135deg, #f0fff4 0%, #dcf8c6 100%);
+        }
+
+        .module-card.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f8f9fa;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .module-icon {
+            font-size: 3rem;
+            margin-right: 20px;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .module-description {
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .module-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.8s ease;
+            border-radius: 4px;
+        }
+
+        .lesson-content {
+            background: var(--light-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin: 25px 0;
+            border-left: 4px solid var(--primary-color);
+            line-height: 1.8;
+        }
+
+        .key-point {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: var(--border-radius-sm);
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+            font-weight: 600;
+        }
+
+        .tip-box {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: var(--border-radius-sm);
+            margin: 20px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .warning-box {
+            background: #f8d7da;
+            padding: 20px;
+            border-radius: var(--border-radius-sm);
+            margin: 20px 0;
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .quiz-container {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin: 25px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-question {
+            background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%);
+            padding: 25px;
+            border-radius: var(--border-radius-sm);
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            margin: 12px 0;
+            border: 2px solid var(--border-color);
+            background: var(--white);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            position: relative;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-color);
+            background: #f0f8f0;
+            transform: translateX(8px);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--secondary-color);
+            background: #d1fae5;
+            animation: correct 0.6s ease;
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--danger-color);
+            background: #fee2e2;
+            animation: incorrect 0.6s ease;
+        }
+
+        @keyframes correct {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrect {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+            100% { transform: translateX(0); }
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .hidden { display: none; }
+
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius-sm);
+            color: var(--white);
+            font-weight: 600;
+            z-index: 2000;
+            max-width: 350px;
+            transform: translateX(100%);
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .notification.success { background: var(--secondary-color); }
+        .notification.warning { background: var(--accent-color); color: var(--text-dark); }
+        .notification.error { background: var(--danger-color); }
+        .notification.info { background: #17a2b8; }
+
+        .adaptive-section {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin: 25px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .weakness-indicator {
+            display: inline-block;
+            background: var(--danger-color);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .strength-indicator {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .header { padding: 25px 20px; }
+            .header h1 { font-size: 2rem; }
+            .card { padding: 20px; }
+            .module-grid { grid-template-columns: 1fr; gap: 20px; }
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+            .btn { width: 100%; margin: 5px 0; }
+            .modal-content { padding: 25px; margin: 20px; }
+        }
+
+        .employee-card {
+            background: var(--light-bg);
+            padding: 25px;
+            margin: 15px 0;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .employee-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .sharing-section {
+            background: linear-gradient(135deg, var(--light-bg) 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin: 25px 0;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .url-display {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            margin: 10px 0;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .quiz-selector {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .quiz-tab {
+            padding: 10px 20px;
+            background: var(--light-bg);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .quiz-tab.active {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .quiz-tab.completed {
+            background: var(--secondary-color);
+            color: var(--white);
+            border-color: var(--secondary-color);
+        }
+
+        .quiz-tab.failed {
+            background: var(--danger-color);
+            color: var(--white);
+            border-color: var(--danger-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Screen -->
+        <div id="loginScreen">
+            <div class="header">
+                <span class="brand-logo">🥯</span>
+                <h1>Ess-a-Bagel Training Academy</h1>
+                <p class="subtitle">Master the Art of Authentic New York Bagels</p>
+            </div>
+            
+            <div class="card login-card">
+                <h2 style="color: var(--primary-color); margin-bottom: 30px; font-size: 28px;">Welcome to Your Training Journey</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">👤 Employee ID</label>
+                    <input type="text" id="empId" class="form-input" placeholder="Enter your ID (e.g., EMP001)" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📝 Full Name</label>
+                    <input type="text" id="empName" class="form-input" placeholder="Enter your full name" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">🏢 Department</label>
+                    <select id="empDept" class="form-input">
+                        <option value="">Select Your Department</option>
+                        <option value="Front Counter">Front Counter Service</option>
+                        <option value="Kitchen">Kitchen & Food Prep</option>
+                        <option value="Management">Management</option>
+                        <option value="Delivery">Delivery & Transport</option>
+                        <option value="Maintenance">Maintenance & Cleaning</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-full" onclick="startTraining()">🚀 Begin Your Training Adventure</button>
+                
+                <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" onclick="showManagerView()">📊 Manager Dashboard</button>
+                    <button class="btn btn-warning" onclick="showDemo()">👁️ View Demo</button>
+                </div>
+                
+                <div class="sharing-section">
+                    <h3 style="color: var(--primary-color); margin-bottom: 20px;">📤 Share Training System</h3>
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-small" onclick="copyTrainingURL()">📋 Copy Link</button>
+                        <button class="btn btn-small" onclick="generateQR()">📱 QR Code</button>
+                        <button class="btn btn-small" onclick="downloadSystem()">💾 Download</button>
+                        <button class="btn btn-small" onclick="showEmailTemplate()">📧 Email</button>
+                    </div>
+                    <div class="url-display" id="currentURL">Loading URL...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Training Interface -->
+        <div id="trainingInterface" class="hidden">
+            <div class="header">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <span class="brand-logo">🥯</span>
+                        <span style="font-size: 2rem; font-weight: 700;">Training Academy</span>
+                        <div style="margin-top: 10px;">
+                            <span style="opacity: 0.9;">Welcome back, </span>
+                            <span id="currentEmployee" style="font-weight: 600;">Employee</span>
+                            <span style="opacity: 0.7; display: block; font-size: 16px;" id="employeeDept">Department</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="logout()">🚪 Logout</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalPoints">0</div>
+                    <div class="stat-label">Total Points</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="chaptersCompleted">0</div>
+                    <div class="stat-label">Chapters Complete</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="overallProgress">0%</div>
+                    <div class="stat-label">Overall Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="adaptiveScore">100%</div>
+                    <div class="stat-label">Mastery Level</div>
+                </div>
+            </div>
+
+            <!-- Adaptive Learning Dashboard -->
+            <div id="adaptiveDashboard" class="adaptive-section hidden">
+                <h3 style="color: var(--primary-color); margin-bottom: 20px;">🎯 Personalized Learning Path</h3>
+                <div id="weaknessAreas"></div>
+                <div id="strengthAreas"></div>
+                <button class="btn btn-warning" onclick="startAdaptiveReview()">📚 Review Weak Areas</button>
+            </div>
+
+            <div id="dashboard">
+                <h2 style="color: var(--primary-color); margin-bottom: 30px; font-size: 2.5rem;">🎓 Your Learning Journey</h2>
+                <div class="module-grid" id="modulesDisplay"></div>
+            </div>
+
+            <!-- Lesson View -->
+            <div id="lessonView" class="hidden">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                        <button class="btn" onclick="backToDashboard()">← Back to Modules</button>
+                        <div style="text-align: center;">
+                            <div style="font-size: 18px; font-weight: 600; color: var(--primary-color);" id="moduleProgress">Module Progress</div>
+                            <div style="color: var(--text-light);">Chapter <span id="chapterNum">1</span> of <span id="totalChapters">5</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    
+                    <div id="lessonContent" class="lesson-content">
+                        <h2 id="lessonTitle" style="color: var(--primary-color); font-size: 2rem; margin-bottom: 20px;">Chapter Title</h2>
+                        <div id="lessonText">Lesson content will appear here...</div>
+                    </div>
+                    
+                    <!-- Multi-Quiz System -->
+                    <div id="quizSection" class="hidden">
+                        <div class="quiz-container">
+                            <h3 style="color: var(--primary-color); margin-bottom: 25px; font-size: 24px;">📝 Chapter Assessment</h3>
+                            
+                            <div class="quiz-selector" id="quizSelector">
+                                <div class="quiz-tab active" onclick="selectQuiz(0)">Quiz 1</div>
+                                <div class="quiz-tab" onclick="selectQuiz(1)">Quiz 2</div>
+                                <div class="quiz-tab" onclick="selectQuiz(2)">Quiz 3</div>
+                            </div>
+                            
+                            <div class="quiz-question">
+                                <h4 id="questionText" style="margin: 0; font-size: 20px; color: var(--primary-color);">Question will appear here</h4>
+                            </div>
+                            <div id="optionsContainer"></div>
+                            
+                            <div style="margin-top: 20px; text-align: center;">
+                                <div id="quizProgress" style="color: var(--text-light); margin-bottom: 15px;">Quiz 1 of 3</div>
+                                <button class="btn" id="nextQuizBtn" onclick="nextQuiz()" style="display: none;">Next Quiz →</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chapter-nav">
+                        <button class="btn" id="takeQuizBtn" onclick="startQuizSequence()">📝 Take Assessment</button>
+                        <button class="btn hidden" id="nextChapterBtn" onclick="nextChapter()">Next Chapter →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manager Dashboard -->
+        <div id="managerDashboard" class="hidden">
+            <div class="header">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <span class="brand-logo">📊</span>
+                        <span style="font-size: 2rem; font-weight: 700;">Manager Dashboard</span>
+                    </div>
+                    <div>
+                        <button class="btn btn-success" onclick="exportAllData()">📥 Export Data</button>
+                        <button class="btn btn-secondary" onclick="logout()">← Back</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalEmployees">0</div>
+                    <div class="stat-label">Total Employees</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="completedEmployees">0</div>
+                    <div class="stat-label">Completed Training</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgScore">0%</div>
+                    <div class="stat-label">Average Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalHours">0</div>
+                    <div class="stat-label">Training Hours</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 style="color: var(--primary-color); margin-bottom: 25px;">Employee Progress Overview</h2>
+                <div style="margin-bottom: 25px;">
+                    <input type="text" id="searchEmployee" class="form-input" placeholder="🔍 Search employees..." onkeyup="filterEmployees()" style="width: 300px; display: inline-block; margin-right: 15px;">
+                    <button class="btn" onclick="refreshData()">🔄 Refresh</button>
+                </div>
+                <div id="employeesList"></div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="modal" class="modal hidden">
+            <div class="modal-content">
+                <div style="font-size: 80px; margin-bottom: 25px;" id="modalEmoji">🎉</div>
+                <h2 style="color: var(--primary-color); margin-bottom: 20px;" id="modalTitle">Assessment Complete!</h2>
+                <p id="modalMessage" style="font-size: 18px; margin-bottom: 25px;">Great work!</p>
+                <div style="background: var(--light-bg); padding: 25px; border-radius: var(--border-radius-sm); margin: 25px 0;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                        <span>Points Earned:</span>
+                        <span style="color: var(--secondary-color); font-weight: bold;" id="earnedPoints">+0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                        <span>Quiz Score:</span>
+                        <span style="color: var(--accent-color); font-weight: bold;" id="quizScore">0%</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Mastery Level:</span>
+                        <span style="color: var(--primary-color); font-weight: bold;" id="masteryLevel">Expert</span>
+                    </div>
+                </div>
+                <button class="btn" onclick="closeModal()">Continue Learning 🚀</button>
+            </div>
+        </div>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="modal hidden">
+            <div class="modal-content" style="text-align: left;">
+                <h2 style="color: var(--primary-color); margin-bottom: 25px; text-align: center;">📤 Share Training System</h2>
+                
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 8px;">🔗 Training Link:</label>
+                    <div class="url-display" id="shareUrl">Loading...</div>
+                    <button class="btn btn-small" onclick="copyShareUrl()">📋 Copy Link</button>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 8px;">📱 QR Code:</label>
+                    <div id="qrContainer" style="text-align: center; padding: 20px; background: var(--light-bg); border-radius: var(--border-radius-sm);">
+                        Click "Generate QR" to create mobile access code
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 8px;">📧 Email Template:</label>
+                    <textarea id="emailTemplate" class="form-input" readonly rows="8" style="font-size: 14px; resize: vertical;">
+Subject: REQUIRED: Complete Employee Training by [DATE]
+
+Hi [Employee Name],
+
+Complete your mandatory training at: [TRAINING_LINK]
+
+Your Login:
+- Employee ID: [PROVIDE_ID] 
+- Use your full name and department
+
+Instructions:
+1. Click link above
+2. Enter your information  
+3. Complete all modules
+4. Pass all assessments (80% minimum)
+
+Deadline: [INSERT_DATE]
+Time: ~60 minutes
+
+Questions? Contact [Manager] at [email/phone]
+
+This training is required for all employees.
+
+Thank you!
+[Your Name]
+                    </textarea>
+                    <button class="btn btn-small" onclick="copyEmailTemplate()">📋 Copy Email</button>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button class="btn" onclick="closeShareModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application state with adaptive learning
+        var currentEmployee = null;
+        var employeeDatabase = {};
+        var currentModule = null;
+        var currentChapter = 0;
+        var currentQuiz = 0;
+        var totalPoints = 0;
+        var completedChapters = 0;
+        var adaptiveData = {};
+
+        // Comprehensive training modules
+        var trainingModules = [
+            {
+                id: 1,
+                title: "Foundation & Company Culture",
+                icon: "🏢",
+                description: "Master our mission, values, and rich heritage",
+                chapters: [
+                    {
+                        title: "Mission & Vision",
+                        content: `
+                            <div class="key-point">
+                                <strong>🎯 Mission:</strong> "To bestow the world with the finest New York-style bagels made with love."
+                            </div>
+                            
+                            <h3>What This Means for You:</h3>
+                            <ul>
+                                <li><strong>Quality First:</strong> Every bagel meets our high standards</li>
+                                <li><strong>Made with Love:</strong> Care and attention in every task</li>
+                                <li><strong>Authentic Tradition:</strong> Honor traditional NY methods</li>
+                                <li><strong>Customer Focus:</strong> Everything serves guest satisfaction</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>🌟 Vision:</strong> "Premier destination for authentic New York bagels worldwide."
+                            </div>
+
+                            <h3>Strategic Goals:</h3>
+                            <ul>
+                                <li>Maintain authenticity while expanding</li>
+                                <li>Set gold standard for bagel excellence</li>
+                                <li>Build lasting community relationships</li>
+                                <li>Grow responsibly without compromising quality</li>
+                            </ul>
+                        `,
+                        quizzes: [
+                            {
+                                question: "What is Ess-a-Bagel's primary mission?",
+                                options: [
+                                    "Make the most bagels in NYC",
+                                    "Bestow the world with finest NY bagels made with love",
+                                    "Be the fastest bagel service",
+                                    "Offer lowest prices"
+                                ],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "What does 'made with love' mean in practice?",
+                                options: [
+                                    "Use romantic marketing",
+                                    "Put care and attention into every task",
+                                    "Only hire family members",
+                                    "Play love songs while working"
+                                ],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "What is our vision for the future?",
+                                options: [
+                                    "Become a global fast food chain",
+                                    "Premier destination for authentic NY bagels worldwide",
+                                    "Replace all traditional bakeries",
+                                    "Focus only on local neighborhood"
+                                ],
+                                correct: 1,
+                                points: 10
+                            }
+                        ]
+                    },
+                    {
+                        title: "Core Values",
+                        content: `
+                            <h3>🌟 Five Core Values:</h3>
+                            
+                            <div class="key-point">
+                                <strong>1. 🤝 Commitment & Accountability</strong><br>
+                                • Take ownership of work and responsibilities<br>
+                                • Keep promises to customers and teammates<br>
+                                • Follow through without excuses<br>
+                                • Own mistakes and learn constructively
+                            </div>
+
+                            <div class="key-point">
+                                <strong>2. 👥 Community & Collaboration</strong><br>
+                                • Work as unified, supportive team<br>
+                                • Help coworkers during busy periods<br>
+                                • Serve local community with pride<br>
+                                • Share knowledge and help others succeed
+                            </div>
+
+                            <div class="key-point">
+                                <strong>3. 📈 Growth & Innovation</strong><br>
+                                • Continuously improve skills<br>
+                                • Suggest ways to enhance operations<br>
+                                • Embrace learning opportunities<br>
+                                • Balance innovation with tradition
+                            </div>
+
+                            <div class="key-point">
+                                <strong>4. 🎯 Integrity & Ownership</strong><br>
+                                • Do right thing when no one watches<br>
+                                • Be honest in all interactions<br>
+                                • Take pride in representing Ess-a-Bagel<br>
+                                • Treat company resources as your own
+                            </div>
+
+                            <div class="key-point">
+                                <strong>5. ⚖️ Work Life Balance</strong><br>
+                                • Manage professional/personal responsibilities<br>
+                                • Maintain physical and mental well-being<br>
+                                • Support teammates' balance needs<br>
+                                • Work efficiently to avoid unnecessary overtime
+                            </div>
+                        `,
+                        quizzes: [
+                            {
+                                question: "Which is one of our five core values?",
+                                options: [
+                                    "Speed over quality",
+                                    "Commitment & Accountability",
+                                    "Profit maximization",
+                                    "Individual competition"
+                                ],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "What does 'Community & Collaboration' mean?",
+                                options: [
+                                    "Only work with local suppliers",
+                                    "Work as unified team and serve community with pride",
+                                    "Compete with other employees",
+                                    "Focus only on individual tasks"
+                                ],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "How should you balance Growth & Innovation with tradition?",
+                                options: [
+                                    "Ignore all traditional methods",
+                                    "Never change anything",
+                                    "Balance innovation with respect for tradition",
+                                    "Only use the newest technology"
+                                ],
+                                correct: 2,
+                                points: 10
+                            }
+                        ]
+                    },
+                    {
+                        title: "Company Heritage",
+                        content: `
+                            <div class="key-point">
+                                <strong>🏛️ Founded 1976</strong> - Nearly 50 years of bagel excellence
+                            </div>
+
+                            <h3>📚 Our Journey:</h3>
+                            <ul>
+                                <li><strong>1976:</strong> Small family bakery with big dreams</li>
+                                <li><strong>1980s:</strong> Built reputation for authentic NY bagels</li>
+                                <li><strong>1990s:</strong> Expanded while maintaining quality</li>
+                                <li><strong>2000s:</strong> Became beloved NYC institution</li>
+                                <li><strong>Today:</strong> Multiple locations serving thousands daily</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>🎯 What Makes Us Special:</strong><br>
+                                Never compromised traditional hand-rolling and boiling for mass production.
+                            </div>
+
+                            <h3>🏆 Heritage Principles:</h3>
+                            <ul>
+                                <li><strong>Authentic Methods:</strong> Hand-rolled, boiled, then baked</li>
+                                <li><strong>Quality Ingredients:</strong> Premium flour, malt, tested recipes</li>
+                                <li><strong>Skilled Craftspeople:</strong> Trained bakers who understand the art</li>
+                                <li><strong>Fresh Daily:</strong> Made new every morning</li>
+                                <li><strong>Community Focus:</strong> Serving neighborhood with pride</li>
+                            </ul>
+
+                            <div class="tip-box">
+                                <strong>🔍 Fun Fact:</strong> Our process hasn't changed since 1976 - same techniques and recipes!
+                            </div>
+                        `,
+                        quizzes: [
+                            {
+                                question: "When was Ess-a-Bagel founded?",
+                                options: ["1972", "1976", "1980", "1985"],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "What makes us special compared to mass producers?",
+                                options: [
+                                    "We use modern machines",
+                                    "We never compromised traditional methods for mass production",
+                                    "We focus on lowest prices",
+                                    "We invented new recipes"
+                                ],
+                                correct: 1,
+                                points: 15
+                            },
+                            {
+                                question: "What is true about our bagel-making process?",
+                                options: [
+                                    "We change it every year",
+                                    "It's the same since 1976",
+                                    "We use only machines now",
+                                    "We follow competitor methods"
+                                ],
+                                correct: 1,
+                                points: 10
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Bagel Making Mastery",
+                icon: "🥯",
+                description: "Master traditional New York bagel-making",
+                chapters: [
+                    {
+                        title: "NY-Style Bagels",
+                        content: `
+                            <div class="key-point">
+                                <strong>🥯 NY-Style Definition:</strong> Hand-rolled, boiled, then baked
+                            </div>
+
+                            <h3>Three Sacred Steps:</h3>
+                            <ol>
+                                <li><strong>🤲 Hand-Rolling:</strong> Individual shaping by skilled hands</li>
+                                <li><strong>🌊 Boiling:</strong> Water bath creates signature texture</li>
+                                <li><strong>🔥 Baking:</strong> High-heat oven develops golden crust</li>
+                            </ol>
+
+                            <div class="key-point">
+                                <strong>⚡ Why This Matters:</strong><br>
+                                Perfect balance of chewy interior and crispy exterior.
+                            </div>
+
+                            <h3>🆚 Us vs Mass-Produced:</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px;">
+                                    <h4>✅ Ess-a-Bagel</h4>
+                                    <ul>
+                                        <li>Hand-rolled</li>
+                                        <li>Boiled then baked</li>
+                                        <li>Dense, chewy</li>
+                                        <li>Fresh daily</li>
+                                        <li>Traditional recipes</li>
+                                    </ul>
+                                </div>
+                                <div style="background: #fee2e2; padding: 20px; border-radius: 10px;">
+                                    <h4>❌ Mass-Produced</h4>
+                                    <ul>
+                                        <li>Machine-pressed</li>
+                                        <li>Steamed/just baked</li>
+                                        <li>Soft, bread-like</li>
+                                        <li>Made for shelf-life</li>
+                                        <li>Preservatives</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="tip-box">
+                                <strong>💰 Customer Education:</strong> Explain traditional process creates superior quality worth the cost.
+                            </div>
+                        `,
+                        quizzes: [
+                            {
+                                question: "What are the three steps of NY-style bagel making?",
+                                options: [
+                                    "Mix, bake, package",
+                                    "Hand-roll, boil, bake",
+                                    "Press, steam, cool",
+                                    "Knead, rise, bake"
+                                ],
+                                correct: 1,
+                                points: 15
+                            },
+                            {
+                                question: "How are mass-produced bagels different from ours?",
+                                options: [
+                                    "They taste the same",
+                                    "They're machine-pressed and steamed vs hand-rolled and boiled",
+                                    "They're more expensive",
+                                    "They're fresher"
+                                ],
+                                correct: 1,
+                                points: 15
+                            },
+                            {
+                                question: "Why is the boiling step important?",
+                                options: [
+                                    "Makes them cook faster",
+                                    "Creates perfect balance of chewy interior and crispy exterior",
+                                    "Adds preservatives",
+                                    "Makes them lighter"
+                                ],
+                                correct: 1,
+                                points: 10
+                            }
+                        ]
+                    },
+                    {
+                        title: "Boiling Science",
+                        content: `
+                            <div class="key-point">
+                                <strong>🧪 Why Boil Before Baking:</strong>
+                            </div>
+
+                            <h3>⚗️ The Science:</h3>
+                            <ul>
+                                <li><strong>Gelatinization:</strong> Surface starches form protective barrier</li>
+                                <li><strong>Texture Development:</strong> Creates characteristic chewiness</li>
+                                <li><strong>Crust Formation:</strong> Enables golden, shiny exterior</li>
+                                <li><strong>Shape Setting:</strong> Prevents over-rising in oven</li>
+                                <li><strong>Flavor Concentration:</strong> Intensifies taste</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>🌡️ Specifications:</strong><br>
+                                • Temperature: 212°F (100°C) rolling boil<br>
+                                • Duration: 30-60 seconds per side<br>
+                                • Additive: Malt syrup for color/flavor
+                            </div>
+
+                            <h3>⏱️ Timing Process:</h3>
+                            <ol>
+                                <li><strong>0-10 sec:</strong> Surface sealing begins</li>
+                                <li><strong>10-30 sec:</strong> Starch gelatinization</li>
+                                <li><strong>30-45 sec:</strong> Interior steaming starts</li>
+                                <li><strong>45-60 sec:</strong> Color development prep</li>
+                            </ol>
+
+                            <div class="warning-box">
+                                <strong>⚠️ Safety:</strong> Boiling water extremely dangerous. Use proper equipment and safety protocols.
+                            </div>
+                        `,
+                        quizzes: [
+                            {
+                                question: "What temperature should boiling water be?",
+                                options: ["200°F", "212°F", "220°F", "180°F"],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "How long should each side be boiled?",
+                                options: ["10-20 seconds", "30-60 seconds", "1-2 minutes", "5 minutes"],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "What does starch gelatinization create?",
+                                options: [
+                                    "Faster cooking",
+                                    "Protective barrier and characteristic chewiness",
+                                    "Lower cost",
+                                    "Longer shelf life"
+                                ],
+                                correct: 1,
+                                points: 15
+                            }
+                        ]
+                    },
+                    {
+                        title: "Fresh Daily Standards",
+                        content: `
+                            <div class="key-point">
+                                <strong>🌅 All Bagels Made Fresh Daily</strong><br>
+                                Zero tolerance for day-old products.
+                            </div>
+
+                            <h3>⏰ Production Schedule:</h3>
+                            <ul>
+                                <li><strong>2:30 AM:</strong> Team arrives, equipment check</li>
+                                <li><strong>3:00 AM:</strong> Dough preparation begins</li>
+                                <li><strong>4:00 AM:</strong> Hand-rolling and shaping</li>
+                                <li><strong>5:00 AM:</strong> First batch boiling/baking</li>
+                                <li><strong>6:00 AM:</strong> Fresh bagels ready for opening</li>
+                                <li><strong>Throughout Day:</strong> Continuous fresh batches</li>
+                                <li><strong>End Day:</strong> All remaining donated/discarded</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>🎯 Quality Promise:</strong><br>
+                                "If not fresh enough for our family, not fresh enough for customers."
+                            </div>
+
+                            <h3>🔍 Freshness Indicators:</h3>
+                            <ul>
+                                <li><strong>Appearance:</strong> Golden brown, glossy surface</li>
+                                <li><strong>Texture:</strong> Firm exterior, soft interior when pressed</li>
+                                <li><strong>Aroma:</strong> Fresh-baked bread smell</li>
+                                <li><strong>Temperature:</strong> Warm or proper room temp</li>
+                                <li><strong>Sound:</strong> Slight crust sound when tapped</li>
+                            </ul>
+
+                            <h3>📦 Storage Rules:</h3>
+                            <ul>
+                                <li><strong>Display Time:</strong> Max 8 hours room temperature</li>
+                                <li><strong>Storage:</strong> Open baskets for air circulation</li>
+                                <li><strong>Rotation:</strong> First made, first sold (FIFO)</li>
+                                <li><strong>Temperature:</strong> Never refrigerate - affects texture</li>
+                            </ul>
+
+                            <div class="warning-box">
+                                <strong>❌ Never Sell:</strong> Day-old, dropped, stale, or past 8-hour display limit.
+                            </div>
+                        `,
+                        quizzes: [
+                            {
+                                question: "How often are bagels made fresh?",
+                                options: ["Weekly", "Daily", "Twice weekly", "As needed"],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "What time does bagel production start?",
+                                options: ["5:00 AM", "4:00 AM", "3:00 AM", "6:00 AM"],
+                                correct: 2,
+                                points: 10
+                            },
+                            {
+                                question: "Maximum display time for bagels?",
+                                options: ["4 hours", "6 hours", "8 hours", "12 hours"],
+                                correct: 2,
+                                points: 15
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Customer Service Excellence",
+                icon: "⭐",
+                description: "Master exceptional guest service",
+                chapters: [
+                    {
+                        title: "10-Second Rule",
+                        content: `
+                            <div class="key-point">
+                                <strong>⏱️ Greet Every Guest Within 10 Seconds</strong><br>
+                                Most important service standard - no exceptions.
+                            </div>
+
+                            <h3>🎯 Why 10 Seconds Matters:</h3>
+                            <ul>
+                                <li><strong>First Impressions:</strong> Sets positive tone</li>
+                                <li><strong>Reduces Anxiety:</strong> Customers know they're noticed</li>
+                                <li><strong>Shows Respect:</strong> Demonstrates we value their time</li>
+                                <li><strong>Professional Standard:</strong> Separates us from competitors</li>
+                                <li><strong>Prevents Complaints:</strong> Eliminates feeling ignored</li>
+                            </ul>
+
+                            <h3>💬 Perfect Greetings:</h3>
+                            <ul>
+                                <li>"Good morning! Welcome to Ess-a-Bagel!"</li>
+                                <li>"Hi there! Thanks for coming in!"</li>
+                                <li>"Welcome! What can I start for you?"</li>
+                                <li>"Good afternoon! How can we help?"</li>
+                                <li>"Welcome back! Great to see you!"</li>
+                            </ul>
+
+                            <h3>🤹 When Busy with Another Customer:</h3>
+                            <ul>
+                                <li><strong>👁️ Eye Contact:</strong> Immediate visual connection</li>
+                                <li><strong>🗣️ Verbal:</strong> "I'll be right with you!"</li>
+                                <li><strong>✋ Gesture:</strong> Hold up finger to signal awareness</li>
+                                <li><strong>😊 Smile:</strong> Non-verbal welcome</li>
+                            </ul>
+
+                            <div class="warning-box">
+                                <strong>❌ Never:</strong> Ignore customers even when extremely busy. Simple acknowledgment prevents negative experiences.
+                            </div>
+                        `,
+                        quizzes: [
+                            {
+                                question: "How quickly should you greet guests?",
+                                options: ["5 seconds", "10 seconds", "15 seconds", "30 seconds"],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "What should you do when busy with another customer?",
+                                options: [
+                                    "Ignore new customers",
+                                    "Make eye contact and say 'I'll be right with you'",
+                                    "Rush current customer",
+                                    "Point to wait area"
+                                ],
+                                correct: 1,
+                                points: 15
+                            },
+                            {
+                                question: "Why is the 10-second rule important?",
+                                options: [
+                                    "Company policy only",
+                                    "Sets positive tone and shows respect for customer time",
+                                    "Makes us look busy",
+                                    "Helps us work faster"
+                                ],
+                                correct: 1,
+                                points: 10
+                            }
+                        ]
+                    },
+                    {
+                        title: "Managing Multiple Customers",
+                        content: `
+                            <h3>🎪 Balancing Multiple Customers:</h3>
+
+                            <h3>When New Customers Arrive:</h3>
+                            <ol>
+                                <li><strong>Immediate Acknowledgment:</strong> Eye contact within 10 seconds</li>
+                                <li><strong>Verbal Assurance:</strong> "I'll be right with you"</li>
+                                <li><strong>Continue Current Service:</strong> Don't rush or make mistakes</li>
+                                <li><strong>Check Back:</strong> Update if delayed</li>
+                                <li><strong>Serve Next:</strong> Thank current, greet next</li>
+                            </ol>
+
+                            <h3>💬 Wait Time Phrases:</h3>
+                            <ul>
+                                <li>"I'll be right with you - finishing up here"</li>
+                                <li>"Thanks for patience, you're next"</li>
+                                <li>"One moment and I'll take care of you"</li>
+                                <li>"I see you waiting - be right there!"</li>
+                            </ul>
+
+                            <div class="tip-box">
+                                <strong>🎯 Pro Tip:</strong> For complex orders, explain to waiting customers: "Large order, just couple more minutes" - transparency reduces frustration.
+                            </div>
+
+                            <h3>🚨 Signs You Need Help:</h3>
+                            <ul>
+                                <li>Line extends beyond 3-4 people</li>
+                                <li>Orders taking over 2 minutes each</li>
+                                <li>Customers showing impatience</li>
+                                <li>You're feeling rushed/stressed</li>
+                            </ul>
+
+                            <h3>📞 Calling for Backup:</h3>
+                            <ul>
+                                <li><strong>Alert Management:</strong> "Can I get backup up front?"</li>
+                                <li><strong>Tell Customers:</strong> "Getting additional help"</li>
+                                <li><strong>Stay Calm:</strong> Maintain professional demeanor</li>
+                                <li><strong>Thank Team:</strong> Acknowledge help when arrives</li>
+                            </ul>
+                        `,
+                        quizzes: [
+                            {
+                                question: "When should you call for backup?",
+                                options: [
+                                    "Never, handle it alone",
+                                    "When line exceeds 3-4 people or orders take over 2 minutes",
+                                    "Only during lunch rush",
+                                    "When manager tells you"
+                                ],
+                                correct: 1,
+                                points: 15
+                            },
+                            {
+                                question: "What should you do for complex orders with waiting customers?",
+                                options: [
+                                    "Rush through the order",
+                                    "Ignore waiting customers",
+                                    "Explain it's a large order and will take couple more minutes",
+                                    "Ask customer to come back later"
+                                ],
+                                correct: 2,
+                                points: 15
+                            },
+                            {
+                                question: "Best way to handle waiting customers?",
+                                options: [
+                                    "Let them wait silently",
+                                    "Acknowledge immediately, provide updates, maintain professional service",
+                                    "Tell them to be patient",
+                                    "Point to the menu"
+                                ],
+                                correct: 1,
+                                points: 10
+                            }
+                        ]
+                    },
+                    {
+                        title: "Three Service Goals",
+                        content: `
+                            <h3>🌟 Three Guest Service Goals:</h3>
+                            
+                            <div class="key-point">
+                                <strong>1. 😊 Think Positively</strong><br>
+                                • Maintain upbeat, optimistic attitude<br>
+                                • See challenges as opportunities<br>
+                                • Focus on solutions, not problems<br>
+                                • Spread positive energy
+                            </div>
+
+                            <h3>How to Think Positively:</h3>
+                            <ul>
+                                <li><strong>Reframe:</strong> "How can I make this work?" vs "This won't work"</li>
+                                <li><strong>Focus Wins:</strong> Celebrate successful interactions</li>
+                                <li><strong>Learn from Mistakes:</strong> View errors as growth opportunities</li>
+                                <li><strong>Stay Solution-Oriented:</strong> Always offer alternatives</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>2. 🤝 Make Friends with Every Guest</strong><br>
+                                • Create genuine personal connections<br>
+                                • Remember regular customers' preferences<br>
+                                • Show authentic interest in their day<br>
+                                • Build relationships that bring them back
+                            </div>
+
+                            <h3>Friendship-Building:</h3>
+                            <ul>
+                                <li><strong>Use Names:</strong> Ask for and remember names</li>
+                                <li><strong>Personal Questions:</strong> "How's your day?" "Any plans?"</li>
+                                <li><strong>Remember Details:</strong> "How was interview?" "Kids like bagels?"</li>
+                                <li><strong>Share Appropriately:</strong> Brief, relevant responses</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>3. 🚀 Go Above and Beyond</strong><br>
+                                • Exceed expectations when possible<br>
+                                • Anticipate customer needs<br>
+                                • Provide extra value without being asked<br>
+                                • Create memorable "wow" moments
+                            </div>
+
+                            <h3>Above and Beyond Examples:</h3>
+                            <ul>
+                                <li><strong>Extra Samples:</strong> Offer tastes of new items</li>
+                                <li><strong>Special Packaging:</strong> Extra care for gifts/travel</li>
+                                <li><strong>Helpful Suggestions:</strong> Recommend perfect pairings</li>
+                                <li><strong>Problem Solving:</strong> Creative solutions to requests</li>
+                                <li><strong>Education:</strong> Share interesting facts about process</li>
+                            </ul>
+                        `,
+                        quizzes: [
+                            {
+                                question: "What are the three guest service goals?",
+                                options: [
+                                    "Fast, cheap, convenient",
+                                    "Think positively, make friends, go above and beyond",
+                                    "Smile, serve, clean",
+                                    "Greet, process, thank"
+                                ],
+                                correct: 1,
+                                points: 15
+                            },
+                            {
+                                question: "How do you 'make friends' with customers?",
+                                options: [
+                                    "Share personal problems",
+                                    "Ask for their phone numbers",
+                                    "Remember names, show interest in their day, remember details",
+                                    "Give them free food"
+                                ],
+                                correct: 2,
+                                points: 15
+                            },
+                            {
+                                question: "What does 'go above and beyond' mean?",
+                                options: [
+                                    "Work extra hours",
+                                    "Exceed expectations and create memorable moments",
+                                    "Do manager's job",
+                                    "Ignore company policies"
+                                ],
+                                correct: 1,
+                                points: 10
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Food Safety & Hygiene",
+                icon: "🧼",
+                description: "Essential safety and sanitation protocols",
+                chapters: [
+                    {
+                        title: "Hand Washing Mastery",
+                        content: `
+                            <div class="key-point">
+                                <strong>⏱️ Hand Washing: Minimum 20 Seconds</strong><br>
+                                Health department requirement and critical safety standard.
+                            </div>
+
+                            <h3>🧼 20-Second Method:</h3>
+                            <ol>
+                                <li><strong>Wet Hands:</strong> Warm running water</li>
+                                <li><strong>Apply Soap:</strong> Antibacterial soap generously</li>
+                                <li><strong>Scrub Thoroughly:</strong> 20 seconds (sing "Happy Birthday" twice)</li>
+                                <li><strong>Clean All Areas:</strong> Palms, backs, fingers, nails, wrists</li>
+                                <li><strong>Rinse Completely:</strong> Remove all soap residue</li>
+                                <li><strong>Dry Properly:</strong> Clean paper towel, not cloth</li>
+                            </ol>
+
+                            <h3>🎯 Proper Scrubbing Technique:</h3>
+                            <ul>
+                                <li><strong>Palm to Palm:</strong> Rub palms together</li>
+                                <li><strong>Interlaced Fingers:</strong> Clean between all fingers</li>
+                                <li><strong>Back of Hands:</strong> Scrub backs with palms</li>
+                                <li><strong>Thumbs:</strong> Rotate each thumb in opposite palm</li>
+                                <li><strong>Fingertips:</strong> Rub fingertips in palms</li>
+                                <li><strong>Wrists:</strong> Clean wrist area thoroughly</li>
+                            </ul>
+
+                            <div class="warning-box">
+                                <strong>⚠️ Violations:</strong> Improper hand washing can result in fines, failed inspections, closure.
+                            </div>
+
+                            <h3>❌ Common Mistakes:</h3>
+                            <ul>
+                                <li>Washing less than 20 seconds</li>
+                                <li>Using only cold water</li>
+                                <li>Insufficient soap</li>
+                                <li>Missing thumbs or wrists</li>
+                                <li>Drying with dirty towels</li>
+                            </ul>
+                        `,
+                        quizzes: [
+                            {
+                                question: "How long should you wash hands?",
+                                options: ["10 seconds", "15 seconds", "20 seconds", "30 seconds"],
+                                correct: 2,
+                                points: 10
+                            },
+                            {
+                                question: "What areas must be cleaned during hand washing?",
+                                options: [
+                                    "Just palms",
+                                    "Palms, backs, fingers, nails, thumbs, wrists",
+                                    "Only fingertips",
+                                    "Whatever you remember"
+                                ],
+                                correct: 1,
+                                points: 15
+                            },
+                            {
+                                question: "Why is 20 seconds scientifically important?",
+                                options: [
+                                    "Company policy",
+                                    "Minimum time needed to kill bacteria and remove contaminants",
+                                    "Saves water",
+                                    "Looks professional"
+                                ],
+                                correct: 1,
+                                points: 10
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "Workplace Safety",
+                icon: "🛡️",
+                description: "Safety procedures and injury prevention",
+                chapters: [
+                    {
+                        title: "Four Main Hazards",
+                        content: `
+                            <h3>🚨 Four Critical Hazard Areas:</h3>
+
+                            <div class="key-point">
+                                <strong>1. 🔥 Burns</strong><br>
+                                • Hot ovens and baking equipment<br>
+                                • Boiling water for bagels<br>
+                                • Steam from equipment<br>
+                                • Hot metal surfaces and trays
+                            </div>
+
+                            <h3>🔥 Burn Prevention:</h3>
+                            <ul>
+                                <li><strong>Protection:</strong> Oven mitts, aprons, closed-toe shoes</li>
+                                <li><strong>Check Temperature:</strong> Test heat before contact</li>
+                                <li><strong>Communication:</strong> Warn "HOT!" when carrying</li>
+                                <li><strong>Use Tools:</strong> Not hands for hot items</li>
+                                <li><strong>Cool Down:</strong> Let equipment cool before cleaning</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>2. 🔪 Cuts</strong><br>
+                                • Sharp knives and slicing equipment<br>
+                                • Broken glass and ceramic<br>
+                                • Metal edges on equipment<br>
+                                • Can lids and packaging
+                            </div>
+
+                            <div class="key-point">
+                                <strong>3. 🏋️ Back Injury</strong><br>
+                                • Heavy lifting of supplies<br>
+                                • Improper bending and twisting<br>
+                                • Repetitive motions<br>
+                                • Poor posture during work
+                            </div>
+
+                            <div class="key-point">
+                                <strong>4. 🧊 Falls</strong><br>
+                                • Wet floors from cleaning<br>
+                                • Spills and food debris<br>
+                                • Obstacles and clutter<br>
+                                • Inappropriate footwear
+                            </div>
+
+                            <h3>🛡️ General Prevention:</h3>
+                            <ul>
+                                <li><strong>Awareness:</strong> Stay alert to surroundings</li>
+                                <li><strong>Proper Equipment:</strong> Use right tools for jobs</li>
+                                <li><strong>Report Hazards:</strong> Alert management immediately</li>
+                                <li><strong>Follow Procedures:</strong> Never take shortcuts</li>
+                            </ul>
+                        `,
+                        quizzes: [
+                            {
+                                question: "What are the four main safety hazards?",
+                                options: [
+                                    "Fire, water, air, earth",
+                                    "Burns, cuts, back injury, falls",
+                                    "Heat, cold, noise, light",
+                                    "Equipment, customers, suppliers, managers"
+                                ],
+                                correct: 1,
+                                points: 15
+                            },
+                            {
+                                question: "Best way to prevent burns?",
+                                options: [
+                                    "Work faster",
+                                    "Use protection, check temperatures, warn others, use tools",
+                                    "Avoid hot areas completely",
+                                    "Let others handle hot items"
+                                ],
+                                correct: 1,
+                                points: 15
+                            },
+                            {
+                                question: "What should you do when you see a safety hazard?",
+                                options: [
+                                    "Ignore it if it's not your job",
+                                    "Fix it yourself even if dangerous",
+                                    "Report to management immediately",
+                                    "Tell customers to be careful"
+                                ],
+                                correct: 2,
+                                points: 10
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "POS System & Payments",
+                icon: "💳",
+                description: "Master Toast POS and payment processing",
+                chapters: [
+                    {
+                        title: "Toast POS Basics",
+                        content: `
+                            <div class="key-point">
+                                <strong>💻 We Use Toast POS</strong><br>
+                                Industry-leading restaurant point-of-sale system.
+                            </div>
+
+                            <h3>🖥️ Basic Navigation:</h3>
+                            <ul>
+                                <li><strong>Home Screen:</strong> Main menu categories and items</li>
+                                <li><strong>Current Order:</strong> Right side shows items being added</li>
+                                <li><strong>Payment:</strong> Process transactions and receipts</li>
+                                <li><strong>Modifiers:</strong> Add extras, changes, special requests</li>
+                            </ul>
+
+                            <h3>📝 Starting Order:</h3>
+                            <ol>
+                                <li><strong>New Order:</strong> Tap "New Order" for fresh screen</li>
+                                <li><strong>Add Items:</strong> Touch menu items to add</li>
+                                <li><strong>Modify Items:</strong> Use modifier buttons for changes</li>
+                                <li><strong>Review Order:</strong> Check accuracy before payment</li>
+                                <li><strong>Process Payment:</strong> Select payment method</li>
+                            </ol>
+
+                            <h3>🔧 Common Modifiers:</h3>
+                            <ul>
+                                <li><strong>Bagel Prep:</strong> Toasted, not toasted, lightly toasted</li>
+                                <li><strong>Cream Cheese:</strong> Light, regular, extra amount</li>
+                                <li><strong>Spread Type:</strong> Plain, flavored varieties</li>
+                                <li><strong>Special Requests:</strong> Cut in half, whole, etc.</li>
+                            </ul>
+
+                            <div class="tip-box">
+                                <strong>🎯 Accuracy First:</strong> Take time to enter correctly. Fixing mistakes takes longer than doing right first time.
+                            </div>
+
+                            <h3>⚙️ Order Management:</h3>
+                            <ul>
+                                <li><strong>Hold Orders:</strong> Save incomplete orders</li>
+                                <li><strong>Void Items:</strong> Remove incorrect items before payment</li>
+                                <li><strong>Split Payments:</strong> Multiple payment methods</li>
+                                <li><strong>Discounts:</strong> Apply authorized discounts properly</li>
+                            </ul>
+
+                            <div class="warning-box">
+                                <strong>🔐 Security:</strong> Never share login code. You're responsible for all transactions under your login.
+                            </div>
+                        `,
+                        quizzes: [
+                            {
+                                question: "What POS system does Ess-a-Bagel use?",
+                                options: ["Square", "Toast", "Clover", "Shopify"],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "Where do you see items being added to order?",
+                                options: [
+                                    "Top of screen",
+                                    "Right side of screen",
+                                    "Bottom of screen",
+                                    "Separate monitor"
+                                ],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "Why should you never share your login code?",
+                                options: [
+                                    "Company policy only",
+                                    "You're responsible for all transactions under your login",
+                                    "It slows down service",
+                                    "Managers don't like it"
+                                ],
+                                correct: 1,
+                                points: 15
+                            }
+                        ]
+                    },
+                    {
+                        title: "Payment Processing",
+                        content: `
+                            <div class="key-point">
+                                <strong>💳 Professional Decline Response:</strong><br>
+                                "I'm having trouble getting authorization. Do you have another form of payment?"
+                            </div>
+
+                            <h3>✅ Accepted Payment Methods:</h3>
+                            <ul>
+                                <li><strong>Credit Cards:</strong> Visa, MasterCard, Amex, Discover</li>
+                                <li><strong>Debit Cards:</strong> With PIN or signature</li>
+                                <li><strong>Cash:</strong> Bills up to $100</li>
+                                <li><strong>Gift Cards:</strong> Ess-a-Bagel branded cards</li>
+                                <li><strong>Mobile Payments:</strong> Apple Pay, Google Pay, Samsung Pay</li>
+                            </ul>
+
+                            <h3>🚫 When Cards Decline:</h3>
+                            <ul>
+                                <li><strong>Stay Professional:</strong> Never use "declined" or "rejected"</li>
+                                <li><strong>Offer Alternatives:</strong> "Try another card?"</li>
+                                <li><strong>Suggest Solutions:</strong> "Sometimes credit works better"</li>
+                                <li><strong>Be Discreet:</strong> Handle quietly to avoid embarrassment</li>
+                            </ul>
+
+                            <h3>💵 Cash Handling:</h3>
+                            <ul>
+                                <li><strong>Bill Limit:</strong> $100 maximum accepted</li>
+                                <li><strong>Verification:</strong> Check $50/$100 bills for authenticity</li>
+                                <li><strong>Count Back:</strong> Count change to customer</li>
+                                <li><strong>Secure Storage:</strong> Large bills to safe drop</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>🔍 Counterfeit Detection:</strong><br>
+                                • Feel texture (genuine bills have distinct feel)<br>
+                                • Check watermarks and security strips<br>
+                                • Use detection pen on $50+ bills<br>
+                                • When in doubt, ask manager
+                            </div>
+
+                            <h3>🎁 Gift Cards:</h3>
+                            <ul>
+                                <li><strong>Balance Check:</strong> Verify balance before order</li>
+                                <li><strong>Partial Payment:</strong> Use gift card amount, then additional</li>
+                                <li><strong>Activation:</strong> New cards must be activated at purchase</li>
+                                <li><strong>Issues:</strong> Call manager for problems</li>
+                            </ul>
+
+                            <h3>🧾 Receipts:</h3>
+                            <ul>
+                                <li><strong>Always Offer:</strong> "Would you like receipt?"</li>
+                                <li><strong>Email Options:</strong> Digital receipts available</li>
+                                <li><strong>Merchant Copy:</strong> Keep copies as required</li>
+                            </ul>
+                        `,
+                        quizzes: [
+                            {
+                                question: "What should you say when a card is declined?",
+                                options: [
+                                    "Your card was declined",
+                                    "I'm having trouble getting authorization, try another form of payment?",
+                                    "Your card doesn't work",
+                                    "Use cash instead"
+                                ],
+                                correct: 1,
+                                points: 15
+                            },
+                            {
+                                question: "Maximum cash bill amount accepted?",
+                                options: ["$50", "$100", "$200", "No limit"],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "What should you do with large bills?",
+                                options: [
+                                    "Keep in register",
+                                    "Put in safe drop immediately",
+                                    "Give to manager",
+                                    "Hide under counter"
+                                ],
+                                correct: 1,
+                                points: 10
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "Menu Mastery & Upselling",
+                icon: "📋",
+                description: "Complete menu knowledge and sales techniques",
+                chapters: [
+                    {
+                        title: "Complete Menu",
+                        content: `
+                            <div class="key-point">
+                                <strong>📋 9 Menu Categories</strong><br>
+                                Understanding each helps guide customers to perfect choices.
+                            </div>
+
+                            <h3>🗂️ Our 9 Categories:</h3>
+                            <ol>
+                                <li><strong>Beverages:</strong> Coffee, tea, juices, sodas, specialty drinks</li>
+                                <li><strong>Salads:</strong> Fresh prepared salads with house dressings</li>
+                                <li><strong>Bagels & Spreads:</strong> Fresh bagels with cream cheese varieties</li>
+                                <li><strong>Favorites:</strong> Signature sandwiches and popular combos</li>
+                                <li><strong>Egg Sandwiches:</strong> Fresh egg preparations on bagels</li>
+                                <li><strong>Sides:</strong> Fruit, chips, pickles, complementary items</li>
+                                <li><strong>Bakery:</strong> Muffins, pastries, baked goods</li>
+                                <li><strong>Knishes:</strong> Traditional Jewish pastries with fillings</li>
+                                <li><strong>Desserts:</strong> Sweet treats and specialty items</li>
+                            </ol>
+
+                            <h3>🥯 Bagel Varieties:</h3>
+                            <ul>
+                                <li><strong>Classic:</strong> Plain, sesame, poppy seed, everything</li>
+                                <li><strong>Sweet:</strong> Cinnamon raisin, blueberry, chocolate chip</li>
+                                <li><strong>Savory:</strong> Onion, garlic, salt, pumpernickel</li>
+                                <li><strong>Specialty:</strong> Whole wheat, egg, jalapeño (seasonal)</li>
+                            </ul>
+
+                            <h3>🧀 Cream Cheese Options:</h3>
+                            <ul>
+                                <li><strong>Plain:</strong> Regular and light versions</li>
+                                <li><strong>Flavored:</strong> Scallion, lox spread, vegetable</li>
+                                <li><strong>Sweet:</strong> Strawberry, blueberry, cinnamon raisin</li>
+                                <li><strong>Specialty:</strong> Seasonal and limited-time offerings</li>
+                            </ul>
+
+                            <div class="tip-box">
+                                <strong>🍴 Sample Strategy:</strong> Offer samples of new/unfamiliar items. Tasting leads to purchasing more than descriptions alone.
+                            </div>
+
+                            <h3>💡 Popular Combinations:</h3>
+                            <ul>
+                                <li><strong>Everything Bagel:</strong> + Scallion cream cheese</li>
+                                <li><strong>Sesame Bagel:</strong> + Lox spread</li>
+                                <li><strong>Cinnamon Raisin:</strong> + Cinnamon raisin cream cheese</li>
+                                <li><strong>Plain Bagel:</strong> + Vegetable cream cheese</li>
+                            </ul>
+                        `,
+                        quizzes: [
+                            {
+                                question: "How many menu categories do we serve?",
+                                options: ["7", "8", "9", "10"],
+                                correct: 2,
+                                points: 10
+                            },
+                            {
+                                question: "Which bagel pairs best with lox spread?",
+                                options: ["Everything", "Sesame", "Cinnamon raisin", "Chocolate chip"],
+                                correct: 1,
+                                points: 10
+                            },
+                            {
+                                question: "Best way to introduce unfamiliar items?",
+                                options: [
+                                    "Just describe them",
+                                    "Offer samples for tasting",
+                                    "Show pictures",
+                                    "Recommend most expensive"
+                                ],
+                                correct: 1,
+                                points: 15
+                            }
+                        ]
+                    },
+                    {
+                        title: "Effective Upselling",
+                        content: `
+                            <div class="key-point">
+                                <strong>🎯 Perfect Upselling Example:</strong><br>
+                                "Would you like to add our signature cream cheese spread to that bagel?"
+                            </div>
+
+                            <h3>📈 Upselling Principles:</h3>
+                            <ul>
+                                <li><strong>Be Specific:</strong> Name exact items vs general suggestions</li>
+                                <li><strong>Add Value:</strong> Explain why addition enhances order</li>
+                                <li><strong>Time Appropriately:</strong> Suggest at natural points</li>
+                                <li><strong>Stay Genuine:</strong> Only suggest items that truly complement</li>
+                            </ul>
+
+                            <h3>🎪 Natural Opportunities:</h3>
+                            <ul>
+                                <li><strong>Plain Bagel:</strong> "Would you like cream cheese with that?"</li>
+                                <li><strong>Bagel with Spread:</strong> "Can I add coffee to go with that?"</li>
+                                <li><strong>Single Item:</strong> "Looking for a drink today?"</li>
+                                <li><strong>Small Order:</strong> "Add a side of fresh fruit?"</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>❌ What NOT to Say:</strong><br>
+                                • "Everything is good here" (too general)<br>
+                                • "Do you want anything else?" (yes/no question)<br>
+                                • "Make it a combo?" (unclear value)
+                            </div>
+
+                            <h3>💬 Effective Phrases:</h3>
+                            <ul>
+                                <li>"Would you like to try our [specific item] with that?"</li>
+                                <li>"Can I add [specific beverage] to complete your order?"</li>
+                                <li>"Our [specific combo] pairs perfectly with your choice"</li>
+                                <li>"Would you like to make that a [specific upgrade]?"</li>
+                            </ul>
+
+                            <h3>👁️ Reading Customer Cues:</h3>
+                            <ul>
+                                <li><strong>Browsing Menu:</strong> "Looking for something specific?"</li>
+                                <li><strong>Hesitating:</strong> "Like to try sample of [item]?"</li>
+                                <li><strong>Multiple People:</strong> "Ordering for the group?"</li>
+                                <li><strong>Regular Customer:</strong> "Your usual, plus [new item]?"</li>
+                            </ul>
+
+                            <div class="tip-box">
+                                <strong>⏰ Timing is Key:</strong> Suggest additions before finalizing order, after they've made primary selection. Feels helpful, not pushy.
+                            </div>
+
+                            <h3>💎 Value-Added Suggestions:</h3>
+                            <ul>
+                                <li><strong>Meal Completion:</strong> "Coffee would go perfectly with that bagel"</li>
+                                <li><strong>Convenience:</strong> "Extra bagel for tomorrow?"</li>
+                                <li><strong>Special Occasions:</strong> "Getting anything for the office?"</li>
+                                <li><strong>Weather-Based:</strong> "Cold out - hot coffee to warm up?"</li>
+                            </ul>
+
+                            <div class="warning-box">
+                                <strong>🚫 Don't Oversell:</strong> One or two appropriate suggestions perfect. Too many feels pushy and reduces satisfaction.
+                            </div>
+                        `,
+                        quizzes: [
+                            {
+                                question: "Customer orders plain bagel. Best upselling approach?",
+                                options: [
+                                    "Would you like to add our signature cream cheese spread?",
+                                    "Everything is good here",
+                                    "Do you want anything else?",
+                                    "That'll be $2.50"
+                                ],
+                                correct: 0,
+                                points: 15
+                            },
+                            {
+                                question: "When should you suggest additions?",
+                                options: [
+                                    "Before they order anything",
+                                    "After payment is complete",
+                                    "Before finalizing order, after primary selection",
+                                    "Only if they ask"
+                                ],
+                                correct: 2,
+                                points: 15
+                            },
+                            {
+                                question: "What makes upselling effective?",
+                                options: [
+                                    "Being pushy and persistent",
+                                    "Being specific, adding value, timing appropriately, staying genuine",
+                                    "Offering most expensive items",
+                                    "Making many suggestions quickly"
+                                ],
+                                correct: 1,
+                                points: 10
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // Adaptive learning logic
+        function updateAdaptiveData(moduleId, chapterId, quizIndex, correct) {
+            var key = moduleId + '_' + chapterId + '_' + quizIndex;
+            if (!adaptiveData[currentEmployee.id]) {
+                adaptiveData[currentEmployee.id] = {};
+            }
+            
+            if (!adaptiveData[currentEmployee.id][key]) {
+                adaptiveData[currentEmployee.id][key] = {
+                    attempts: 0,
+                    correct: 0,
+                    lastScore: 0
+                };
+            }
+            
+            adaptiveData[currentEmployee.id][key].attempts++;
+            if (correct) {
+                adaptiveData[currentEmployee.id][key].correct++;
+            }
+            adaptiveData[currentEmployee.id][key].lastScore = correct ? 100 : 0;
+            
+            updateAdaptiveDashboard();
+        }
+
+        function updateAdaptiveDashboard() {
+            var weakAreas = [];
+            var strongAreas = [];
+            
+            if (adaptiveData[currentEmployee.id]) {
+                Object.keys(adaptiveData[currentEmployee.id]).forEach(function(key) {
+                    var data = adaptiveData[currentEmployee.id][key];
+                    var successRate = (data.correct / data.attempts) * 100;
+                    var parts = key.split('_');
+                    var moduleId = parseInt(parts[0]);
+                    var chapterId = parseInt(parts[1]);
+                    var quizIndex = parseInt(parts[2]);
+                    
+                    var module = trainingModules.find(m => m.id === moduleId);
+                    var chapter = module.chapters[chapterId];
+                    
+                    var area = {
+                        module: module.title,
+                        chapter: chapter.title,
+                        quiz: quizIndex + 1,
+                        rate: successRate,
+                        attempts: data.attempts
+                    };
+                    
+                    if (successRate < 70) {
+                        weakAreas.push(area);
+                    } else if (successRate >= 90) {
+                        strongAreas.push(area);
+                    }
+                });
+            }
+            
+            var weaknessDiv = document.getElementById('weaknessAreas');
+            var strengthDiv = document.getElementById('strengthAreas');
+            
+            if (weakAreas.length > 0) {
+                document.getElementById('adaptiveDashboard').classList.remove('hidden');
+                weaknessDiv.innerHTML = '<h4>🎯 Areas Needing Review:</h4>' + 
+                    weakAreas.map(area => 
+                        `<div>${area.module} - ${area.chapter} (Quiz ${area.quiz}) <span class="weakness-indicator">${Math.round(area.rate)}%</span></div>`
+                    ).join('');
+            } else {
+                weaknessDiv.innerHTML = '';
+            }
+            
+            if (strongAreas.length > 0) {
+                strengthDiv.innerHTML = '<h4>💪 Your Strengths:</h4>' + 
+                    strongAreas.map(area => 
+                        `<div>${area.module} - ${area.chapter} (Quiz ${area.quiz}) <span class="strength-indicator">${Math.round(area.rate)}%</span></div>`
+                    ).join('');
+            } else {
+                strengthDiv.innerHTML = '';
+            }
+            
+            // Update mastery score
+            var totalAttempts = 0;
+            var totalCorrect = 0;
+            
+            if (adaptiveData[currentEmployee.id]) {
+                Object.values(adaptiveData[currentEmployee.id]).forEach(function(data) {
+                    totalAttempts += data.attempts;
+                    totalCorrect += data.correct;
+                });
+            }
+            
+            var masteryScore = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 100;
+            document.getElementById('adaptiveScore').textContent = masteryScore + '%';
+        }
+
+        // Training system functions
+        function startTraining() {
+            var empId = document.getElementById('empId').value.trim();
+            var empName = document.getElementById('empName').value.trim();
+            var empDept = document.getElementById('empDept').value;
+            
+            if (!empId || !empName || !empDept) {
+                showNotification('Please fill in all fields to continue', 'warning');
+                return;
+            }
+            
+            currentEmployee = {
+                id: empId,
+                name: empName,
+                department: empDept,
+                startTime: new Date().toISOString()
+            };
+            
+            if (!employeeDatabase[empId]) {
+                employeeDatabase[empId] = {
+                    id: empId,
+                    name: empName,
+                    department: empDept,
+                    progress: {},
+                    totalPoints: 0,
+                    completedChapters: 0,
+                    sessions: []
+                };
+            }
+            
+            totalPoints = employeeDatabase[empId].totalPoints || 0;
+            completedChapters = employeeDatabase[empId].completedChapters || 0;
+            
+            showTrainingInterface();
+        }
+
+        function showTrainingInterface() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('managerDashboard').style.display = 'none';
+            document.getElementById('trainingInterface').style.display = 'block';
+            
+            document.getElementById('currentEmployee').textContent = currentEmployee.name;
+            document.getElementById('employeeDept').textContent = currentEmployee.department;
+            
+            renderTrainingModules();
+            updateEmployeeStats();
+            updateAdaptiveDashboard();
+        }
+
+        function showManagerView() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('trainingInterface').style.display = 'none';
+            document.getElementById('managerDashboard').style.display = 'block';
+            
+            updateManagerStats();
+            renderEmployeesList();
+        }
+
+        function showDemo() {
+            currentEmployee = {
+                id: 'DEMO001',
+                name: 'Demo User',
+                department: 'Front Counter',
+                startTime: new Date().toISOString()
+            };
+            
+            // Create demo data
+            employeeDatabase['DEMO001'] = {
+                id: 'DEMO001',
+                name: 'Demo User',
+                department: 'Front Counter',
+                progress: {1: {completed: false, chaptersCompleted: 1}},
+                totalPoints: 25,
+                completedChapters: 1,
+                sessions: []
+            };
+            
+            totalPoints = 25;
+            completedChapters = 1;
+            
+            showTrainingInterface();
+            showNotification('Welcome to the demo! This shows how the training system works.', 'info');
+        }
+
+        function logout() {
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('trainingInterface').style.display = 'none';
+            document.getElementById('managerDashboard').style.display = 'none';
+            
+            currentEmployee = null;
+            totalPoints = 0;
+            completedChapters = 0;
+            
+            document.getElementById('empId').value = '';
+            document.getElementById('empName').value = '';
+            document.getElementById('empDept').value = '';
+        }
+
+        function renderTrainingModules() {
+            var container = document.getElementById('modulesDisplay');
+            container.innerHTML = '';
+            
+            trainingModules.forEach(function(module) {
+                var progress = employeeDatabase[currentEmployee.id].progress[module.id] || { completed: false, chaptersCompleted: 0 };
+                var isCompleted = progress.completed;
+                var isLocked = module.id > 1 && !employeeDatabase[currentEmployee.id].progress[module.id - 1]?.completed;
+                
+                var moduleDiv = document.createElement('div');
+                moduleDiv.className = 'module-card' + (isCompleted ? ' completed' : '') + (isLocked ? ' locked' : '');
+                
+                var statusText = isCompleted ? '✅ Complete' : isLocked ? '🔒 Locked' : '▶️ Start Learning';
+                var totalPoints = module.chapters.reduce((sum, ch) => sum + ch.quizzes.reduce((qSum, q) => qSum + q.points, 0), 0);
+                
+                moduleDiv.innerHTML = `
+                    <div class="module-header">
+                        <span class="module-icon">${module.icon}</span>
+                        <div>
+                            <div class="module-title">Module ${module.id}: ${module.title}</div>
+                            <div class="module-description">${module.description}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <div style="background: var(--light-bg); padding: 15px; border-radius: var(--border-radius-sm); margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span>📚 ${module.chapters.length} chapters</span>
+                                <span>💎 ${totalPoints} total points</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${((progress.chaptersCompleted || 0) / module.chapters.length) * 100}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="module-footer">
+                        <div style="font-weight: 600; color: var(--text-dark);">
+                            ${progress.chaptersCompleted || 0}/${module.chapters.length} chapters completed
+                        </div>
+                        <div style="color: ${isCompleted ? 'var(--secondary-color)' : isLocked ? 'var(--text-light)' : 'var(--primary-color)'}; font-weight: 600;">
+                            ${statusText}
+                        </div>
+                    </div>
+                `;
+                
+                if (!isLocked) {
+                    moduleDiv.onclick = function() {
+                        startModule(module.id);
+                    };
+                }
+                
+                container.appendChild(moduleDiv);
+            });
+        }
+
+        function startModule(moduleId) {
+            currentModule = trainingModules.find(m => m.id === moduleId);
+            currentChapter = 0;
+            currentQuiz = 0;
+            showLesson();
+        }
+
+        function showLesson() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('lessonView').style.display = 'block';
+            
+            var chapter = currentModule.chapters[currentChapter];
+            document.getElementById('moduleProgress').textContent = currentModule.title;
+            document.getElementById('chapterNum').textContent = currentChapter + 1;
+            document.getElementById('totalChapters').textContent = currentModule.chapters.length;
+            document.getElementById('lessonTitle').textContent = chapter.title;
+            document.getElementById('lessonText').innerHTML = chapter.content;
+            document.getElementById('progressFill').style.width = ((currentChapter + 1) / currentModule.chapters.length * 100) + '%';
+            
+            document.getElementById('lessonContent').style.display = 'block';
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('takeQuizBtn').style.display = 'block';
+            document.getElementById('nextChapterBtn').style.display = 'none';
+        }
+
+        function startQuizSequence() {
+            currentQuiz = 0;
+            document.getElementById('lessonContent').style.display = 'none';
+            document.getElementById('quizSection').style.display = 'block';
+            document.getElementById('takeQuizBtn').style.display = 'none';
+            
+            setupQuizTabs();
+            showCurrentQuiz();
+        }
+
+        function setupQuizTabs() {
+            var container = document.getElementById('quizSelector');
+            container.innerHTML = '';
+            
+            for (var i = 0; i < 3; i++) {
+                var tab = document.createElement('div');
+                tab.className = 'quiz-tab' + (i === 0 ? ' active' : '');
+                tab.innerHTML = 'Quiz ' + (i + 1);
+                tab.onclick = function(index) {
+                    return function() { selectQuiz(index); };
+                }(i);
+                container.appendChild(tab);
+            }
+        }
+
+        function selectQuiz(index) {
+            currentQuiz = index;
+            
+            var tabs = document.querySelectorAll('.quiz-tab');
+            tabs.forEach(function(tab, i) {
+                tab.classList.remove('active');
+                if (i === index) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            showCurrentQuiz();
+        }
+
+        function showCurrentQuiz() {
+            var quiz = currentModule.chapters[currentChapter].quizzes[currentQuiz];
+            document.getElementById('questionText').textContent = quiz.question;
+            document.getElementById('quizProgress').textContent = `Quiz ${currentQuiz + 1} of 3`;
+            
+            var container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            
+            quiz.options.forEach(function(option, index) {
+                var button = document.createElement('button');
+                button.className = 'quiz-option';
+                button.innerHTML = `<span style="background: var(--light-bg); color: var(--text-dark); width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">${String.fromCharCode(65 + index)}</span>${option}`;
+                button.onclick = function() {
+                    selectAnswer(index);
+                };
+                container.appendChild(button);
+            });
+        }
+
+        function selectAnswer(answerIndex) {
+            var quiz = currentModule.chapters[currentChapter].quizzes[currentQuiz];
+            var isCorrect = answerIndex === quiz.correct;
+            
+            var buttons = document.querySelectorAll('.quiz-option');
+            buttons.forEach(function(btn, i) {
+                btn.onclick = null;
+                if (i === answerIndex) {
+                    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                if (i === quiz.correct && !isCorrect) {
+                    btn.classList.add('correct');
+                }
+            });
+            
+            // Update adaptive learning data
+            updateAdaptiveData(currentModule.id, currentChapter, currentQuiz, isCorrect);
+            
+            // Update quiz tab status
+            var currentTab = document.querySelectorAll('.quiz-tab')[currentQuiz];
+            currentTab.classList.remove('active');
+            currentTab.classList.add(isCorrect ? 'completed' : 'failed');
+            
+            var points = isCorrect ? quiz.points : 0;
+            if (isCorrect) {
+                totalPoints += points;
+                employeeDatabase[currentEmployee.id].totalPoints = totalPoints;
+            }
+            
+            setTimeout(function() {
+                if (currentQuiz < 2) {
+                    document.getElementById('nextQuizBtn').style.display = 'block';
+                } else {
+                    // All quizzes completed
+                    var allCorrect = checkAllQuizzesCompleted();
+                    if (allCorrect) {
+                        completedChapters++;
+                        employeeDatabase[currentEmployee.id].completedChapters = completedChapters;
+                        
+                        // Update chapter progress
+                        if (!employeeDatabase[currentEmployee.id].progress[currentModule.id]) {
+                            employeeDatabase[currentEmployee.id].progress[currentModule.id] = { chaptersCompleted: 0 };
+                        }
+                        employeeDatabase[currentEmployee.id].progress[currentModule.id].chaptersCompleted = Math.max(
+                            employeeDatabase[currentEmployee.id].progress[currentModule.id].chaptersCompleted || 0,
+                            currentChapter + 1
+                        );
+                        
+                        // Check if module is complete
+                        if (currentChapter >= currentModule.chapters.length - 1) {
+                            employeeDatabase[currentEmployee.id].progress[currentModule.id].completed = true;
+                        }
+                    }
+                    
+                    showCompletionModal(points, isCorrect, allCorrect);
+                }
+            }, 2000);
+        }
+
+        function nextQuiz() {
+            currentQuiz++;
+            selectQuiz(currentQuiz);
+            document.getElementById('nextQuizBtn').style.display = 'none';
+        }
+
+        function checkAllQuizzesCompleted() {
+            var tabs = document.querySelectorAll('.quiz-tab');
+            var completedCount = 0;
+            
+            tabs.forEach(function(tab) {
+                if (tab.classList.contains('completed')) {
+                    completedCount++;
+                }
+            });
+            
+            return completedCount >= 2; // Need at least 2 out of 3 correct
+        }
+
+        function showCompletionModal(points, isCorrect, canProceed) {
+            var modalEmoji = canProceed ? '🎉' : isCorrect ? '✅' : '📚';
+            var modalTitle = canProceed ? 'Chapter Mastered!' : isCorrect ? 'Correct!' : 'Keep Learning!';
+            var modalMessage = canProceed ? 
+                'Excellent! You\'ve demonstrated mastery of this chapter.' :
+                isCorrect ? 'Great job on this quiz!' : 
+                'Good effort! Review the material and remember the key points.';
+            
+            var masteryLevel = canProceed ? 'Expert' : isCorrect ? 'Good' : 'Needs Review';
+            
+            document.getElementById('modalEmoji').textContent = modalEmoji;
+            document.getElementById('modalTitle').textContent = modalTitle;
+            document.getElementById('modalMessage').textContent = modalMessage;
+            document.getElementById('earnedPoints').textContent = '+' + points;
+            document.getElementById('quizScore').textContent = isCorrect ? '100%' : '0%';
+            document.getElementById('masteryLevel').textContent = masteryLevel;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            
+            var allCorrect = checkAllQuizzesCompleted();
+            if (allCorrect) {
+                if (currentChapter >= currentModule.chapters.length - 1) {
+                    showNotification('🎓 Module completed! Outstanding work!', 'success');
+                    backToDashboard();
+                } else {
+                    document.getElementById('nextChapterBtn').style.display = 'block';
+                }
+            } else {
+                showNotification('Complete remaining quizzes or review this chapter.', 'info');
+            }
+        }
+
+        function nextChapter() {
+            currentChapter++;
+            currentQuiz = 0;
+            showLesson();
+        }
+
+        function backToDashboard() {
+            document.getElementById('lessonView').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            renderTrainingModules();
+            updateEmployeeStats();
+        }
+
+        function updateEmployeeStats() {
+            var totalChapters = trainingModules.reduce(function(sum, module) {
+                return sum + module.chapters.length;
+            }, 0);
+            
+            var progressPercent = Math.round((completedChapters / totalChapters) * 100);
+            
+            document.getElementById('totalPoints').textContent = totalPoints;
+            document.getElementById('chaptersCompleted').textContent = completedChapters;
+            document.getElementById('overallProgress').textContent = progressPercent + '%';
+        }
+
+        function startAdaptiveReview() {
+            showNotification('🎯 Starting review of your weak areas...', 'info');
+            // Could implement specific review logic here
+        }
+
+        // Sharing functions
+        function copyTrainingURL() {
+            copyToClipboard(window.location.href, 'Training URL copied! 📋');
+        }
+
+        function generateQR() {
+            var url = window.location.href;
+            document.getElementById('shareUrl').textContent = url;
+            
+            var qrURL = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(url);
+            document.getElementById('qrContainer').innerHTML = `
+                <img src="${qrURL}" alt="QR Code" style="border: 2px solid var(--primary-color); border-radius: var(--border-radius-sm);" />
+                <p style="margin-top: 15px; color: var(--text-light);">Scan to access training on mobile</p>
+            `;
+            
+            document.getElementById('shareModal').style.display = 'flex';
+        }
+
+        function downloadSystem() {
+            var htmlContent = document.documentElement.outerHTML;
+            var blob = new Blob([htmlContent], { type: 'text/html' });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'ess-a-bagel-training-complete.html';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            showNotification('Training system downloaded! 💾', 'success');
+        }
+
+        function showEmailTemplate() {
+            var url = window.location.href;
+            document.getElementById('shareUrl').textContent = url;
+            var emailText = document.getElementById('emailTemplate').value.replace('[TRAINING_LINK]', url);
+            document.getElementById('emailTemplate').value = emailText;
+            document.getElementById('shareModal').style.display = 'flex';
+        }
+
+        function copyShareUrl() {
+            copyToClipboard(document.getElementById('shareUrl').textContent, 'URL copied! 📋');
+        }
+
+        function copyEmailTemplate() {
+            copyToClipboard(document.getElementById('emailTemplate').value, 'Email template copied! 📧');
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareModal').style.display = 'none';
+        }
+
+        // Manager functions
+        function updateManagerStats() {
+            var totalEmps = Object.keys(employeeDatabase).length;
+            var completedEmps = 0;
+            var totalScores = 0;
+            var totalSessions = 0;
+            
+            Object.values(employeeDatabase).forEach(function(emp) {
+                var totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
+                if (emp.completedChapters >= totalChapters) completedEmps++;
+                totalScores += emp.totalPoints || 0;
+                totalSessions += (emp.sessions || []).length;
+            });
+            
+            document.getElementById('totalEmployees').textContent = totalEmps;
+            document.getElementById('completedEmployees').textContent = completedEmps;
+            document.getElementById('avgScore').textContent = totalEmps > 0 ? Math.round((totalScores / totalEmps) / 5) + '%' : '0%';
+            document.getElementById('totalHours').textContent = Math.round(totalSessions * 0.75);
+        }
+
+        function renderEmployeesList() {
+            var container = document.getElementById('employeesList');
+            container.innerHTML = '';
+            
+            if (Object.keys(employeeDatabase).length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: var(--text-light); padding: 40px;">No employee data yet. Data will appear after employees complete training.</div>';
+                return;
+            }
+            
+            Object.values(employeeDatabase).forEach(function(emp) {
+                var totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
+                var progressPercent = Math.round(((emp.completedChapters || 0) / totalChapters) * 100);
+                var status = progressPercent >= 100 ? 'Complete' : progressPercent > 0 ? 'In Progress' : 'Not Started';
+                var statusColor = progressPercent >= 100 ? 'var(--secondary-color)' : progressPercent > 0 ? 'var(--accent-color)' : 'var(--danger-color)';
+                
+                var card = document.createElement('div');
+                card.className = 'employee-card';
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0; color: var(--primary-color); font-size: 20px;">${emp.name}</h4>
+                            <p style="margin: 8px 0; color: var(--text-light);">ID: ${emp.id} | Department: ${emp.department}</p>
+                            <div style="margin-top: 15px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span>Progress: ${progressPercent}%</span>
+                                    <span>Points: ${emp.totalPoints || 0}</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; margin-left: 25px;">
+                            <div style="color: ${statusColor}; font-weight: bold; font-size: 18px;">${status}</div>
+                            <div style="color: var(--text-light); margin-top: 5px;">${emp.completedChapters || 0}/${totalChapters} chapters</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterEmployees() {
+            var search = document.getElementById('searchEmployee').value.toLowerCase();
+            var cards = document.querySelectorAll('.employee-card');
+            
+            cards.forEach(function(card) {
+                var text = card.textContent.toLowerCase();
+                card.style.display = text.includes(search) ? 'block' : 'none';
+            });
+        }
+
+        function refreshData() {
+            renderEmployeesList();
+            updateManagerStats();
+            showNotification('Data refreshed! 🔄', 'success');
+        }
+
+        function exportAllData() {
+            var data = 'Employee ID,Name,Department,Chapters Completed,Total Points,Status,Mastery Level\n';
+            Object.values(employeeDatabase).forEach(function(emp) {
+                var totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
+                var progressPercent = Math.round(((emp.completedChapters || 0) / totalChapters) * 100);
+                var status = progressPercent >= 100 ? 'Complete' : progressPercent > 0 ? 'In Progress' : 'Not Started';
+                
+                // Calculate mastery level from adaptive data
+                var masteryLevel = 'Not Assessed';
+                if (adaptiveData[emp.id]) {
+                    var totalAttempts = 0;
+                    var totalCorrect = 0;
+                    Object.values(adaptiveData[emp.id]).forEach(function(data) {
+                        totalAttempts += data.attempts;
+                        totalCorrect += data.correct;
+                    });
+                    if (totalAttempts > 0) {
+                        var masteryScore = Math.round((totalCorrect / totalAttempts) * 100);
+                        masteryLevel = masteryScore >= 90 ? 'Expert' : masteryScore >= 80 ? 'Proficient' : masteryScore >= 70 ? 'Developing' : 'Needs Review';
+                    }
+                }
+                
+                data += `${emp.id},${emp.name},${emp.department},${emp.completedChapters || 0},${emp.totalPoints || 0},${status},${masteryLevel}\n`;
+            });
+            
+            var blob = new Blob([data], { type: 'text/csv' });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'ess-a-bagel-training-report.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            showNotification('Training report exported! 📥', 'success');
+        }
+
+        // Utility functions
+        function copyToClipboard(text, message) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showNotification(message, 'success');
+                }).catch(function() {
+                    fallbackCopy(text, message);
+                });
+            } else {
+                fallbackCopy(text, message);
+            }
+        }
+
+        function fallbackCopy(text, message) {
+            var textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showNotification(message, 'success');
+            } catch (err) {
+                showNotification('Copy failed - please manually copy', 'warning');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showNotification(message, type) {
+            var notification = document.createElement('div');
+            notification.className = 'notification ' + type;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('currentURL').textContent = 'Current URL: ' + window.location.href;
+            
+            // Add sample employee data
+            employeeDatabase['EMP001'] = {
+                id: 'EMP001',
+                name: 'Sarah Johnson',
+                department: 'Front Counter',
+                progress: {1: {completed: true, chaptersCompleted: 3}, 2: {completed: false, chaptersCompleted: 1}},
+                totalPoints: 120,
+                completedChapters: 4,
+                sessions: [{startTime: new Date().toISOString(), pointsEarned: 120}]
+            };
+            
+            employeeDatabase['EMP002'] = {
+                id: 'EMP002',
+                name: 'Mike Chen',
+                department: 'Kitchen',
+                progress: {1: {completed: true, chaptersCompleted: 3}},
+                totalPoints: 90,
+                completedChapters: 3,
+                sessions: [{startTime: new Date().toISOString(), pointsEarned: 90}]
+            };
+        });
+    </script>
+</body>
+</html>
