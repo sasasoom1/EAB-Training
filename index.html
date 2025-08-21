@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ess-a-Bagel Complete Training System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; margin: 20px; background: #f5f5f5; line-height: 1.6; }
+        .header { background: linear-gradient(135deg, #083915 0%, #0a4a1a 100%); color: white; padding: 25px; text-align: center; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 20px rgba(8,57,21,0.3); }
+        .debug { background: #fff3cd; padding: 15px; margin: 15px 0; border-radius: 8px; border: 1px solid #ffeaa7; font-weight: bold; color: #856404; }
+        .employee-login { background: white; padding: 40px; border-radius: 16px; max-width: 500px; margin: 0 auto; box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+        .input-field { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; margin: 10px 0; transition: border-color 0.3s ease; }
+        .input-field:focus { border-color: #083915; outline: none; box-shadow: 0 0 0 3px rgba(8,57,21,0.1); }
+        .textarea-field { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 14px; margin: 10px 0; min-height: 120px; resize: vertical; }
+        .btn { background: #083915; color: white; padding: 15px 25px; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: 600; margin: 8px; transition: all 0.3s ease; text-decoration: none; display: inline-block; }
+        .btn:hover { background: #062B0F; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(8,57,21,0.3); }
+        .btn.secondary { background: #6c757d; } .btn.secondary:hover { background: #545b62; }
+        .btn.success { background: #28a745; } .btn.success:hover { background: #218838; }
+        .btn.warning { background: #ffc107; color: #212529; } .btn.warning:hover { background: #e0a800; }
+        .btn.danger { background: #dc3545; } .btn.danger:hover { background: #c82333; }
+        .btn.small { padding: 8px 16px; font-size: 14px; }
+        .stats-bar { background: white; padding: 25px; border-radius: 12px; margin: 25px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .stat { text-align: center; padding: 15px; }
+        .stat-number { font-size: 32px; font-weight: bold; color: #083915; margin-bottom: 5px; }
+        .stat-label { color: #666; font-size: 14px; font-weight: 500; }
+        .module { background: white; padding: 30px; margin: 20px 0; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); cursor: pointer; border: 2px solid transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+        .module::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #083915, #28a745); transform: scaleX(0); transition: transform 0.3s ease; }
+        .module:hover { border-color: #083915; background: #f8fff8; transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .module:hover::before { transform: scaleX(1); }
+        .module.locked { opacity: 0.6; cursor: not-allowed; background: #f8f8f8; }
+        .module.locked:hover { transform: none; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .module.completed { border-color: #28a745; background: linear-gradient(135deg, #f0fff4 0%, #dcf8c6 100%); }
+        .lesson-content { background: #f8f9fa; padding: 30px; border-radius: 12px; margin: 25px 0; border-left: 5px solid #083915; line-height: 1.8; }
+        .lesson-title { color: #083915; font-size: 2rem; margin-bottom: 20px; font-weight: 700; }
+        .key-point { background: #e8f5e8; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #083915; font-weight: 600; }
+        .tip-box { background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #ffc107; }
+        .warning-box { background: #f8d7da; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #dc3545; }
+        .option { display: block; width: 100%; padding: 20px; margin: 15px 0; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 12px; font-size: 16px; text-align: left; transition: all 0.3s ease; position: relative; }
+        .option:hover { border-color: #083915; background: #f0f8f0; transform: translateX(8px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .option.correct { border-color: #28a745; background: #d1fae5; animation: correct 0.6s ease; }
+        .option.incorrect { border-color: #dc3545; background: #fee2e2; animation: incorrect 0.6s ease; }
+        @keyframes correct { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes incorrect { 0% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } 100% { transform: translateX(0); } }
+        .progress-bar { width: 100%; height: 10px; background: #e0e0e0; border-radius: 5px; margin: 20px 0; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #083915, #28a745); border-radius: 5px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hidden { display: none; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
+        .modal-content { background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: modalIn 0.3s ease; }
+        @keyframes modalIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .admin-panel { background: white; padding: 30px; border-radius: 16px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .employee-card { background: #f8f9fa; padding: 25px; margin: 15px 0; border-radius: 12px; border-left: 5px solid #083915; transition: all 0.3s ease; }
+        .employee-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .chapter-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; flex-wrap: wrap; gap: 15px; }
+        .sharing-section { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 25px; border-radius: 12px; margin: 25px 0; text-align: center; border: 1px solid #dee2e6; }
+        .qr-display { background: white; padding: 20px; border-radius: 10px; margin: 20px auto; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .url-display { background: #f8f9fa; padding: 15px; border-radius: 8px; font-family: monospace; word-break: break-all; margin: 10px 0; border: 1px solid #dee2e6; }
+        .notification { position: fixed; top: 30px; right: 30px; background: #28a745; color: white; padding: 15px 25px; border-radius: 10px; font-weight: 600; z-index: 2000; box-shadow: 0 4px 20px rgba(0,0,0,0.3); max-width: 350px; transform: translateX(100%); transition: transform 0.3s ease; font-size: 16px; }
+        
+        @media (max-width: 768px) {
+            body { margin: 10px; }
+            .header { padding: 20px 15px; }
+            .employee-login { padding: 25px; }
+            .module { padding: 20px; }
+            .lesson-content { padding: 20px; }
+            .stats-bar { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); padding: 20px; gap: 15px; }
+            .stat-number { font-size: 24px; }
+            .chapter-nav { flex-direction: column; text-align: center; }
+            .btn { width: 100%; margin: 5px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="debug" id="debug">🔧 Loading Complete Training System...</div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen">
+        <div class="header">
+            <h1>🥯 Ess-a-Bagel Training Academy</h1>
+            <p style="opacity: 0.9; margin-top: 10px; font-size: 18px;">Complete Employee Education & Certification System</p>
+        </div>
+        
+        <div class="employee-login">
+            <h2 style="text-align: center; color: #083915; margin-bottom: 30px; font-size: 28px;">Welcome to Training</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 8px; color: #333;">👤 Employee ID:</label>
+                <input type="text" id="empId" class="input-field" placeholder="Enter your ID (e.g., EMP001)" />
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 8px; color: #333;">📝 Full Name:</label>
+                <input type="text" id="empName" class="input-field" placeholder="Enter your full name" />
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 8px; color: #333;">🏢 Department:</label>
+                <select id="empDept" class="input-field">
+                    <option value="">Select Your Department</option>
+                    <option value="Front Counter">Front Counter Service</option>
+                    <option value="Kitchen">Kitchen & Food Prep</option>
+                    <option value="Management">Management</option>
+                    <option value="Delivery">Delivery & Transport</option>
+                    <option value="Maintenance">Maintenance & Cleaning</option>
+                </select>
+            </div>
+            
+            <button class="btn" style="width: 100%; margin-top: 25px; font-size: 18px;" onclick="startTraining()">🚀 Begin Training Journey</button>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn secondary" onclick="showManagerView()">📊 Manager Dashboard</button>
+            </div>
+            
+            <!-- Enhanced Sharing Section -->
+            <div class="sharing-section">
+                <h3 style="color: #083915; margin: 0 0 20px 0;">📤 Share Training System</h3>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn small" onclick="copyTrainingURL()">📋 Copy Link</button>
+                    <button class="btn small" onclick="generateTrainingQR()">📱 QR Code</button>
+                    <button class="btn small" onclick="downloadTrainingFile()">💾 Download</button>
+                    <button class="btn small" onclick="showEmailTemplate()">📧 Email Template</button>
+                </div>
+                <div id="githubInfo" style="margin-top: 20px;">
+                    <div class="url-display" id="currentURL">Current URL: Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Training Interface -->
+    <div id="trainingInterface" class="hidden">
+        <div class="header">
+            <h1>🥯 Ess-a-Bagel Training Academy</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                <div>
+                    <span style="opacity: 0.9;">Welcome back, </span>
+                    <span id="currentEmployee" style="font-weight: bold; font-size: 18px;">Employee</span>
+                    <span style="opacity: 0.7; font-size: 14px; display: block; margin-top: 5px;" id="employeeDept">Department</span>
+                </div>
+                <button class="btn secondary" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-number" id="totalPoints">0</div>
+                <div class="stat-label">Total Points</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="chaptersCompleted">0</div>
+                <div class="stat-label">Chapters Complete</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="overallProgress">0%</div>
+                <div class="stat-label">Overall Progress</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="currentStreak">0</div>
+                <div class="stat-label">Learning Streak</div>
+            </div>
+        </div>
+
+        <div id="dashboard">
+            <h2 style="color: #083915; margin-bottom: 25px; font-size: 32px;">🎓 Your Training Journey</h2>
+            <div id="modulesDisplay"></div>
+        </div>
+
+        <div id="lessonView" class="hidden">
+            <div style="background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
+                    <button class="btn" onclick="backToDashboard()">← Back to Modules</button>
+                    <div style="text-align: center;">
+                        <div style="font-size: 18px; font-weight: 600; color: #083915;" id="moduleProgress">Module Progress</div>
+                        <div style="color: #666;">Chapter <span id="chapterNum">1</span> of <span id="totalChapters">5</span></div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                
+                <div id="lessonContent" class="lesson-content">
+                    <h2 id="lessonTitle" class="lesson-title">Chapter Title</h2>
+                    <div id="lessonText">Lesson content will appear here...</div>
+                </div>
+                
+                <div id="quizSection" class="hidden">
+                    <h3 style="color: #083915; margin-bottom: 25px; font-size: 24px;">📝 Chapter Assessment</h3>
+                    <div style="background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%); padding: 30px; margin: 30px 0; border-radius: 12px; border-left: 5px solid #083915;">
+                        <h4 id="questionText" style="margin: 0; font-size: 20px; color: #083915;">Question will appear here</h4>
+                    </div>
+                    <div id="optionsContainer"></div>
+                </div>
+                
+                <div class="chapter-nav">
+                    <button class="btn" id="takeQuizBtn" onclick="startQuiz()">📝 Take Chapter Quiz</button>
+                    <button class="btn hidden" id="nextChapterBtn" onclick="nextChapter()">Next Chapter →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manager Dashboard -->
+    <div id="managerDashboard" class="hidden">
+        <div class="header">
+            <h1>📊 Manager Training Dashboard</h1>
+            <div style="float: right; margin-top: 15px;">
+                <button class="btn success" onclick="exportAllData()">📥 Export All Data</button>
+                <button class="btn secondary" onclick="logout()">← Back to Login</button>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-number" id="totalEmployees">0</div>
+                <div class="stat-label">Total Employees</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="completedEmployees">0</div>
+                <div class="stat-label">Completed Training</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="avgScore">0%</div>
+                <div class="stat-label">Average Score</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="totalHours">0</div>
+                <div class="stat-label">Training Hours</div>
+            </div>
+        </div>
+
+        <div class="admin-panel">
+            <h2 style="color: #083915; margin-bottom: 25px;">Employee Progress Overview</h2>
+            <div style="margin-bottom: 25px;">
+                <input type="text" id="searchEmployee" class="input-field" placeholder="🔍 Search employees by name or ID..." onkeyup="filterEmployees()" style="width: 300px; display: inline-block; margin-right: 15px;">
+                <button class="btn" onclick="refreshEmployeeData()">🔄 Refresh Data</button>
+            </div>
+            <div id="employeesList"></div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <div style="font-size: 80px; margin-bottom: 25px;" id="modalEmoji">🎉</div>
+            <h2 style="color: #083915; margin-bottom: 20px; font-size: 32px;" id="modalTitle">Chapter Complete!</h2>
+            <p id="modalMessage" style="font-size: 18px; margin-bottom: 25px;">Excellent work! You've mastered this chapter.</p>
+            <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 25px; border-radius: 12px; margin: 25px 0;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 18px;">
+                    <span>Points Earned:</span>
+                    <span style="color: #28a745; font-weight: bold; font-size: 20px;" id="earnedPoints">+0</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 18px;">
+                    <span>Chapter Score:</span>
+                    <span style="color: #ffc107; font-weight: bold; font-size: 20px;" id="chapterScore">100%</span>
+                </div>
+            </div>
+            <button class="btn" id="continueBtn" onclick="closeModal()" style="font-size: 18px; padding: 15px 30px;">Continue Learning 🚀</button>
+        </div>
+    </div>
+
+    <!-- Sharing Modal -->
+    <div id="shareModal" class="modal hidden">
+        <div class="modal-content">
+            <h2 style="color: #083915; margin-bottom: 25px;">📤 Share Training System</h2>
+            
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 8px; color: #333;">🔗 Direct Training Link:</label>
+                <div class="url-display" id="shareUrl">Loading...</div>
+                <button class="btn small" onclick="copyUrlToClipboard()">📋 Copy Link</button>
+            </div>
+            
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 8px; color: #333;">📱 QR Code for Mobile Access:</label>
+                <div id="qrCodeContainer" class="qr-display">
+                    <div style="color: #666;">Click "Generate QR Code" to create mobile access code</div>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 8px; color: #333;">📧 Employee Email Template:</label>
+                <textarea id="emailTemplate" class="textarea-field" readonly rows="12">
+Subject: REQUIRED: Complete Employee Training by [DATE]
+
+Hi [Employee Name],
+
+Please complete your mandatory training by accessing the link below:
+
+🔗 Training Link: [TRAINING_LINK]
+
+📋 Your Login Information:
+- Employee ID: [PROVIDE_ID]
+- Use your full name and department
+
+⏰ Instructions:
+1. Click the training link above
+2. Enter your Employee ID and information
+3. Complete ALL training modules
+4. Pass all chapter quizzes (minimum 80%)
+
+📅 Deadline: [INSERT_DATE]
+⏱️ Estimated Time: 45-60 minutes
+
+❓ Need help? Contact [Manager Name] at [email/phone]
+
+This training is mandatory for all employees and required for continued employment.
+
+Thank you!
+[Your Name]
+[Your Title]
+                </textarea>
+                <button class="btn small" onclick="copyEmailToClipboard()">📋 Copy Email Template</button>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" onclick="closeShareModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application state - using variables instead of localStorage to avoid security errors
+        var currentEmployee = null;
+        var employeeDatabase = {};
+        var currentModule = null;
+        var currentChapter = 0;
+        var totalPoints = 0;
+        var completedChapters = 0;
+
+        // Enhanced training modules with comprehensive content
+        var trainingModules = [
+            {
+                id: 1,
+                title: "Foundation & Company Culture",
+                icon: "🏢",
+                description: "Learn our mission, values, and rich heritage",
+                chapters: [
+                    {
+                        title: "Our Mission & Vision",
+                        content: `
+                            <div class="key-point">
+                                <strong>🎯 Mission Statement:</strong><br>
+                                "To bestow the world with the finest New York-style bagels made with love."
+                            </div>
+                            
+                            <h3>What This Means for You:</h3>
+                            <ul>
+                                <li><strong>Quality First:</strong> Every bagel must meet our high standards - no exceptions</li>
+                                <li><strong>Made with Love:</strong> Put genuine care and attention into every task</li>
+                                <li><strong>Authentic Tradition:</strong> We honor traditional New York bagel-making methods</li>
+                                <li><strong>Customer Focus:</strong> Everything we do serves our guests' satisfaction</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>🌟 Vision Statement:</strong><br>
+                                "To be the premier destination for authentic New York bagels worldwide."
+                            </div>
+
+                            <h3>Our Strategic Goals:</h3>
+                            <ul>
+                                <li>Maintain authenticity while expanding our reach</li>
+                                <li>Set the gold standard for bagel excellence</li>
+                                <li>Build lasting relationships with our community</li>
+                                <li>Grow responsibly without compromising quality</li>
+                            </ul>
+
+                            <div class="tip-box">
+                                <strong>💡 Remember:</strong> Every interaction you have with customers should reflect our mission of providing the finest bagels made with love.
+                            </div>
+                        `,
+                        quiz: {
+                            question: "What is Ess-a-Bagel's primary mission?",
+                            options: [
+                                "To make the most bagels in New York City",
+                                "To bestow the world with the finest New York-style bagels made with love",
+                                "To be the fastest bagel service in town",
+                                "To offer the lowest prices on bagels"
+                            ],
+                            correct: 1,
+                            points: 10
+                        }
+                    },
+                    {
+                        title: "Core Values & Principles",
+                        content: `
+                            <h3>🌟 Our Five Core Values Guide Everything We Do:</h3>
+                            
+                            <div class="key-point">
+                                <strong>1. 🤝 Commitment & Accountability</strong><br>
+                                • Take full ownership of your work and responsibilities<br>
+                                • Keep promises to customers and teammates<br>
+                                • Follow through on commitments without excuses<br>
+                                • Own mistakes and learn from them constructively
+                            </div>
+
+                            <div class="key-point">
+                                <strong>2. 👥 Community & Collaboration</strong><br>
+                                • Work together as a unified, supportive team<br>
+                                • Help coworkers during busy periods<br>
+                                • Serve our local community with genuine pride<br>
+                                • Share knowledge and help others succeed
+                            </div>
+
+                            <div class="key-point">
+                                <strong>3. 📈 Growth & Innovation</strong><br>
+                                • Continuously improve your skills and knowledge<br>
+                                • Suggest constructive ways to enhance operations<br>
+                                • Embrace new learning and development opportunities<br>
+                                • Balance innovation with respect for tradition
+                            </div>
+
+                            <div class="key-point">
+                                <strong>4. 🎯 Integrity & Ownership</strong><br>
+                                • Do the right thing even when nobody is watching<br>
+                                • Be completely honest in all interactions<br>
+                                • Take pride in representing Ess-a-Bagel<br>
+                                • Treat company resources as if they were your own
+                            </div>
+
+                            <div class="key-point">
+                                <strong>5. ⚖️ Work Life Balance</strong><br>
+                                • Manage professional and personal responsibilities effectively<br>
+                                • Maintain physical and mental well-being<br>
+                                • Support teammates' balance and wellness needs<br>
+                                • Work efficiently to avoid unnecessary overtime
+                            </div>
+
+                            <div class="warning-box">
+                                <strong>⚠️ Important:</strong> These values aren't just words on a wall - they guide every decision we make and every interaction we have.
+                            </div>
+                        `,
+                        quiz: {
+                            question: "Which of these is one of Ess-a-Bagel's five core values?",
+                            options: [
+                                "Speed over quality",
+                                "Commitment & Accountability", 
+                                "Profit maximization",
+                                "Individual competition"
+                            ],
+                            correct: 1,
+                            points: 10
+                        }
+                    },
+                    {
+                        title: "Company History & Heritage",
+                        content: `
+                            <div class="key-point">
+                                <strong>🏛️ Founded in 1976</strong> - Nearly 50 years of bagel excellence in New York City
+                            </div>
+
+                            <h3>📚 Our Journey Through the Decades:</h3>
+                            <ul>
+                                <li><strong>1976:</strong> Started as a small family bakery with big dreams</li>
+                                <li><strong>1980s:</strong> Built reputation for authentic NY-style bagels</li>
+                                <li><strong>1990s:</strong> Expanded locations while maintaining quality</li>
+                                <li><strong>2000s:</strong> Became a beloved NYC institution</li>
+                                <li><strong>Today:</strong> Multiple locations serving thousands of satisfied customers daily</li>
+                            </ul>
+
+                            <div class="key-point">
+                                <strong>🎯 What Makes Us Special:</strong><br>
+                                We never compromised traditional hand-rolling and boiling methods for mass production efficiency.
+                            </div>
+
+                            <h3>🏆 Heritage Principles We Maintain:</h3>
+                            <ul>
+                                <li><strong>Authentic Methods:</strong> Hand-rolled, boiled, then baked the traditional way</li>
+                                <li><strong>Quality Ingredients:</strong> Premium flour, malt, and time-tested recipes</li>
+                                <li><strong>Skilled Craftspeople:</strong> Trained bakers who understand the art</li>
+                                <li><strong>Fresh Daily:</strong> Made new every morning without compromise</li>
+                                <li><strong>Community Focus:</strong> Serving our neighborhood with pride</li>
+                            </ul>
+
+                            <div class="tip-box">
+                                <strong>🔍 Fun Fact:</strong> Our bagel-making process hasn't changed since 1976 - we use the same techniques and recipes that made us famous!
+                            </div>
+
+                            <h3>🌟 Your Role in Our Legacy:</h3>
+                            <p>As an Ess-a-Bagel team member, you're not just doing a job - you're continuing a 50-year tradition of excellence. Every bagel you help create, every customer you serve, adds to our rich heritage.</p>
+                        `,
+                        quiz: {
+                            question: "When was Ess-a-Bagel founded, and what makes us special?",
+                            options: [
+                                "1972, we use modern machines for efficiency",
+                                "1976, we never compromised traditional methods for mass production",
+                                "1980, we focus on the lowest prices",
+                                "1985, we invented new bagel recipes"
+                            ],
+                            correct: 1,
+                            points: 15
+                        }
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Bagel Making Mastery",
+                icon: "🥯",
+                description: "Master the traditional New York bagel-making process",
+                chapters: [
+                    {
+                        title: "Understanding New York-Style Bagels",
+                        content: `
+                            <div class="key-point">
+                                <strong>🥯 What Makes a Bagel "New York-Style":</strong>
+                            </div>
+
+                            <h3>The Sacred Three-Step Process:</h3>
+                            <ol>
+                                <li><strong>🤲 Hand-Rolling:</strong> Each bagel individually shaped by skilled hands</li>
+                                <li><strong>🌊 Boiling:</strong> Brief water bath creates signature texture</li>
+                                <li><strong>🔥 Baking:</strong> High-heat oven develops golden, crispy crust</li>
+                            </ol>
+
+                            <div class="key-point">
+                                <strong>⚡ Why This Process Matters:</strong><br>
+                                Creates the perfect balance of chewy interior and crispy exterior that defines authentic NY bagels.
+                            </div>
+
+                            <h3>🆚 Authentic vs. Mass-Produced Comparison:</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px;">
+                                    <h4 style="color: #083915;">✅ Ess-a-Bagel Method</h4>
+                                    <ul>
+                                        <li>Hand-rolled with care</li>
+                                        <li>Boiled then baked</li>
+                                        <li>Dense, chewy texture</li>
+                                        <li>Made fresh daily</li>
+                                        <li>Traditional recipes</li>
+                                    </ul>
+                                </div>
+                                <div style="background: #fee2e2; padding: 20px; border-radius: 10px;">
+                                    <h4 style="color: #dc3545;">❌ Mass-Produced</h4>
+                                    <ul>
+                                        <li>Machine-pressed</li>
+                                        <li>Steamed or just baked</li>
+                                        <li>Soft, bread-like</li>
+                                        <li>Made for shelf-life</li>
+                                        <li>Artificial preservatives</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="tip-box">
+                                <strong>💰 Customer Education:</strong> When customers ask why our bagels cost more, explain the traditional process and daily freshness that creates superior quality.
+                            </div>
+                        `,
+                        quiz: {
+                            question: "What makes our bagels 'New York-style' and different from mass-produced bagels?",
+                            options: [
+                                "They're baked quickly at low temperature with preservatives",
+                                "They're hand-rolled, boiled, then baked traditionally for superior texture",
+                                "They contain special New York water and nothing else matters",
+                                "They're made by machines for consistency"
+                            ],
+                            correct: 1,
+                            points: 15
+                        }
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Customer Service Excellence",
+                icon: "⭐",
+                description: "Master the art of exceptional guest service",
+                chapters: [
+                    {
+                        title: "The 10-Second Rule",
+                        content: `
+                            <div class="key-point">
+                                <strong>⏱️ Greet Every Guest Within 10 Seconds</strong><br>
+                                This is our most important service standard - absolutely no exceptions.
+                            </div>
+
+                            <h3>🎯 Why the 10-Second Rule Matters:</h3>
+                            <ul>
+                                <li><strong>First Impressions:</strong> Sets positive tone for entire visit</li>
+                                <li><strong>Reduces Anxiety:</strong> Customers know they've been noticed</li>
+                                <li><strong>Shows Respect:</strong> Demonstrates we value their time</li>
+                                <li><strong>Professional Standard:</strong> Separates us from competitors</li>
+                                <li><strong>Prevents Complaints:</strong> Eliminates feeling ignored or overlooked</li>
+                                <li><strong>Builds Connection:</strong> Starts relationship on positive note</li>
+                            </ul>
+
+                            <h3>💬 Perfect Greeting Examples:</h3>
+                            <ul>
+                                <li>"Good morning! Welcome to Ess-a-Bagel!"</li>
+                                <li>"Hi there! Thanks for coming in today!"</li>
+                                <li>"Welcome! What can I start for you?"</li>
+                                <li>"Good afternoon! How can we make your day better?"</li>
+                                <li>"Welcome back! Great to see you again!"</li>
+                            </ul>
+
+                            <div class="warning-box">
+                                <strong>❌ Never:</strong> Ignore new customers, even if you're extremely busy. A simple "I see you, I'll be right there" prevents negative experiences and shows professionalism.
+                            </div>
+                        `,
+                        quiz: {
+                            question: "How quickly should you greet guests when they enter, and why is this important?",
+                            options: [
+                                "5 seconds, to show we're faster than competitors",
+                                "10 seconds, to set a positive tone and show respect for their time",
+                                "15 seconds, to finish what you're doing first",
+                                "30 seconds, to observe what they might want"
+                            ],
+                            correct: 1,
+                            points: 10
+                        }
+                    }
+                ]
+            }
+        ];
+
+        function updateDebug(msg) {
+            document.getElementById('debug').innerHTML = '🔧 ' + msg;
+            console.log('DEBUG:', msg);
+        }
+
+        // Fixed sharing functions that work without localStorage
+        function copyTrainingURL() {
+            var url = window.location.href;
+            copyTextToClipboard(url, 'Training URL copied to clipboard! 📋');
+        }
+
+        function generateTrainingQR() {
+            var url = window.location.href;
+            document.getElementById('shareUrl').textContent = url;
+            
+            // Generate QR code using QR Server API
+            var qrURL = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(url);
+            document.getElementById('qrCodeContainer').innerHTML = `
+                <img src="${qrURL}" alt="QR Code for Training Access" style="border: 2px solid #083915; border-radius: 8px;" />
+                <p style="margin-top: 15px; font-size: 14px; color: #666;">Scan with mobile device to access training</p>
+            `;
+            
+            document.getElementById('shareModal').style.display = 'flex';
+        }
+
+        function downloadTrainingFile() {
+            var htmlContent = document.documentElement.outerHTML;
+            var blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'ess-a-bagel-training-system.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            showNotification('Training file downloaded! 💾', 'success');
+        }
+
+        function showEmailTemplate() {
+            var url = window.location.href;
+            document.getElementById('shareUrl').textContent = url;
+            var emailText = document.getElementById('emailTemplate').value.replace('[TRAINING_LINK]', url);
+            document.getElementById('emailTemplate').value = emailText;
+            document.getElementById('shareModal').style.display = 'flex';
+        }
+
+        // Fixed clipboard functions
+        function copyTextToClipboard(text, message) {
+            // Try modern clipboard API first
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showNotification(message, 'success');
+                }).catch(function() {
+                    fallbackCopyToClipboard(text, message);
+                });
+            } else {
+                fallbackCopyToClipboard(text, message);
+            }
+        }
+
+        function fallbackCopyToClipboard(text, message) {
+            // Fallback for older browsers or non-secure contexts
+            var textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showNotification(message, 'success');
+            } catch (err) {
+                showNotification('Copy failed - please manually copy the text', 'warning');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function copyUrlToClipboard() {
+            var url = document.getElementById('shareUrl').textContent;
+            copyTextToClipboard(url, 'Training URL copied! 📋');
+        }
+
+        function copyEmailToClipboard() {
+            var email = document.getElementById('emailTemplate').value;
+            copyTextToClipboard(email, 'Email template copied! 📧');
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareModal').style.display = 'none';
+        }
+
+        // Training system functions
+        function startTraining() {
+            var empId = document.getElementById('empId').value.trim();
+            var empName = document.getElementById('empName').value.trim();
+            var empDept = document.getElementById('empDept').value;
+            
+            if (!empId || !empName || !empDept) {
+                showNotification('Please fill in all fields to continue', 'warning');
+                return;
+            }
+            
+            currentEmployee = {
+                id: empId,
+                name: empName,
+                department: empDept,
+                startTime: new Date().toISOString()
+            };
+            
+            if (!employeeDatabase[empId]) {
+                employeeDatabase[empId] = {
+                    id: empId,
+                    name: empName,
+                    department: empDept,
+                    progress: {},
+                    totalPoints: 0,
+                    completedChapters: 0,
+                    sessions: []
+                };
+            } else {
+                // Update name and department if they've changed
+                employeeDatabase[empId].name = empName;
+                employeeDatabase[empId].department = empDept;
+            }
+            
+            totalPoints = employeeDatabase[empId].totalPoints || 0;
+            completedChapters = employeeDatabase[empId].completedChapters || 0;
+            
+            updateDebug('Employee logged in: ' + empName + ' (' + empId + ')');
+            showTrainingInterface();
+        }
+
+        function showTrainingInterface() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('managerDashboard').style.display = 'none';
+            document.getElementById('trainingInterface').style.display = 'block';
+            
+            document.getElementById('currentEmployee').textContent = currentEmployee.name;
+            document.getElementById('employeeDept').textContent = currentEmployee.department;
+            
+            renderTrainingModules();
+            updateEmployeeStats();
+        }
+
+        function showManagerView() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('trainingInterface').style.display = 'none';
+            document.getElementById('managerDashboard').style.display = 'block';
+            
+            updateManagerStats();
+            renderEmployeesList();
+        }
+
+        function logout() {
+            // Save current session
+            if (currentEmployee) {
+                employeeDatabase[currentEmployee.id].sessions.push({
+                    startTime: currentEmployee.startTime,
+                    endTime: new Date().toISOString(),
+                    pointsEarned: totalPoints - (employeeDatabase[currentEmployee.id].totalPoints || 0)
+                });
+            }
+            
+            currentEmployee = null;
+            totalPoints = 0;
+            completedChapters = 0;
+            
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('trainingInterface').style.display = 'none';
+            document.getElementById('managerDashboard').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('empId').value = '';
+            document.getElementById('empName').value = '';
+            document.getElementById('empDept').value = '';
+        }
+
+        function renderTrainingModules() {
+            var container = document.getElementById('modulesDisplay');
+            container.innerHTML = '';
+            
+            trainingModules.forEach(function(module, index) {
+                var progress = employeeDatabase[currentEmployee.id].progress[module.id] || { completed: false, chaptersCompleted: 0 };
+                var isCompleted = progress.completed;
+                var isLocked = module.id > 1 && !employeeDatabase[currentEmployee.id].progress[module.id - 1]?.completed;
+                
+                var moduleDiv = document.createElement('div');
+                moduleDiv.className = 'module' + (isCompleted ? ' completed' : '') + (isLocked ? ' locked' : '');
+                
+                var statusText = isCompleted ? '✅ Complete' : isLocked ? '🔒 Locked' : '▶️ Start Learning';
+                var statusColor = isCompleted ? '#28a745' : isLocked ? '#999' : '#007AFF';
+                
+                moduleDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <span style="font-size: 60px; margin-right: 25px;">${module.icon}</span>
+                        <div style="flex: 1;">
+                            <h3 style="margin: 0; color: #083915; font-size: 24px;">Module ${module.id}: ${module.title}</h3>
+                            <p style="margin: 8px 0; color: #666; font-size: 16px;">${module.description}</p>
+                            <div style="margin-top: 15px;">
+                                <span style="background: #f8f9fa; padding: 8px 15px; border-radius: 20px; font-size: 14px; color: #666;">
+                                    ${module.chapters.length} chapters • ${module.chapters.reduce((sum, ch) => sum + ch.quiz.points, 0)} points
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="color: #083915; font-weight: bold; font-size: 16px;">
+                            ${progress.chaptersCompleted || 0}/${module.chapters.length} chapters completed
+                        </div>
+                        <div style="color: ${statusColor}; font-weight: bold; font-size: 18px;">
+                            ${statusText}
+                        </div>
+                    </div>
+                `;
+                
+                if (!isLocked) {
+                    moduleDiv.onclick = function() {
+                        startModule(module.id);
+                    };
+                }
+                
+                container.appendChild(moduleDiv);
+            });
+        }
+
+        function startModule(moduleId) {
+            updateDebug('Starting Module ' + moduleId);
+            currentModule = trainingModules.find(m => m.id === moduleId);
+            currentChapter = 0;
+            showLesson();
+        }
+
+        function showLesson() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('lessonView').style.display = 'block';
+            
+            var chapter = currentModule.chapters[currentChapter];
+            document.getElementById('moduleProgress').textContent = currentModule.title;
+            document.getElementById('chapterNum').textContent = currentChapter + 1;
+            document.getElementById('totalChapters').textContent = currentModule.chapters.length;
+            document.getElementById('lessonTitle').textContent = chapter.title;
+            document.getElementById('lessonText').innerHTML = chapter.content;
+            document.getElementById('progressFill').style.width = ((currentChapter + 1) / currentModule.chapters.length * 100) + '%';
+            
+            document.getElementById('lessonContent').style.display = 'block';
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('takeQuizBtn').style.display = 'block';
+            document.getElementById('nextChapterBtn').style.display = 'none';
+        }
+
+        function startQuiz() {
+            document.getElementById('lessonContent').style.display = 'none';
+            document.getElementById('quizSection').style.display = 'block';
+            document.getElementById('takeQuizBtn').style.display = 'none';
+            
+            var quiz = currentModule.chapters[currentChapter].quiz;
+            document.getElementById('questionText').textContent = quiz.question;
+            
+            var container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            
+            quiz.options.forEach(function(option, index) {
+                var button = document.createElement('button');
+                button.className = 'option';
+                button.innerHTML = `<span style="background: #f3f4f6; color: #374151; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">${String.fromCharCode(65 + index)}</span>${option}`;
+                button.onclick = function() {
+                    selectAnswer(index);
+                };
+                container.appendChild(button);
+            });
+        }
+
+        function selectAnswer(answerIndex) {
+            var quiz = currentModule.chapters[currentChapter].quiz;
+            var isCorrect = answerIndex === quiz.correct;
+            
+            var buttons = document.querySelectorAll('.option');
+            buttons.forEach(function(btn, i) {
+                btn.onclick = null;
+                if (i === answerIndex) {
+                    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                if (i === quiz.correct && !isCorrect) {
+                    btn.classList.add('correct');
+                }
+            });
+            
+            var points = isCorrect ? quiz.points : 0;
+            if (isCorrect) {
+                totalPoints += points;
+                completedChapters++;
+                employeeDatabase[currentEmployee.id].totalPoints = totalPoints;
+                employeeDatabase[currentEmployee.id].completedChapters = completedChapters;
+                
+                // Update chapter progress
+                if (!employeeDatabase[currentEmployee.id].progress[currentModule.id]) {
+                    employeeDatabase[currentEmployee.id].progress[currentModule.id] = { chaptersCompleted: 0 };
+                }
+                employeeDatabase[currentEmployee.id].progress[currentModule.id].chaptersCompleted = Math.max(
+                    employeeDatabase[currentEmployee.id].progress[currentModule.id].chaptersCompleted || 0,
+                    currentChapter + 1
+                );
+                
+                // Check if module is complete
+                if (currentChapter >= currentModule.chapters.length - 1) {
+                    employeeDatabase[currentEmployee.id].progress[currentModule.id].completed = true;
+                }
+            }
+            
+            setTimeout(function() {
+                showCompletionModal(points, isCorrect);
+            }, 2000);
+        }
+
+        function showCompletionModal(points, isCorrect) {
+            var modalEmoji = isCorrect ? '🎉' : '📚';
+            var modalTitle = isCorrect ? 'Excellent Work!' : 'Keep Learning!';
+            var modalMessage = isCorrect ? 
+                'Perfect! You understood this chapter completely.' : 
+                'Good effort! Review the material and remember the key points for next time.';
+            
+            document.getElementById('modalEmoji').textContent = modalEmoji;
+            document.getElementById('modalTitle').textContent = modalTitle;
+            document.getElementById('modalMessage').textContent = modalMessage;
+            document.getElementById('earnedPoints').textContent = '+' + points;
+            document.getElementById('chapterScore').textContent = isCorrect ? '100%' : '0%';
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            
+            if (currentChapter >= currentModule.chapters.length - 1) {
+                showNotification('🎓 Module completed! Great job!', 'success');
+                backToDashboard();
+            } else {
+                document.getElementById('nextChapterBtn').style.display = 'block';
+            }
+        }
+
+        function nextChapter() {
+            currentChapter++;
+            showLesson();
+        }
+
+        function backToDashboard() {
+            document.getElementById('lessonView').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            renderTrainingModules();
+            updateEmployeeStats();
+        }
+
+        function updateEmployeeStats() {
+            var totalChapters = trainingModules.reduce(function(sum, module) {
+                return sum + module.chapters.length;
+            }, 0);
+            
+            var progressPercent = Math.round((completedChapters / totalChapters) * 100);
+            var streak = Math.floor(totalPoints / 50);
+            
+            document.getElementById('totalPoints').textContent = totalPoints;
+            document.getElementById('chaptersCompleted').textContent = completedChapters;
+            document.getElementById('overallProgress').textContent = progressPercent + '%';
+            document.getElementById('currentStreak').textContent = streak;
+        }
+
+        // Simplified manager functions
+        function updateManagerStats() {
+            var totalEmps = Object.keys(employeeDatabase).length;
+            var completedEmps = 0;
+            var totalScores = 0;
+            var totalSessions = 0;
+            
+            Object.values(employeeDatabase).forEach(function(emp) {
+                var totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
+                if (emp.completedChapters >= totalChapters) completedEmps++;
+                totalScores += emp.totalPoints || 0;
+                totalSessions += (emp.sessions || []).length;
+            });
+            
+            document.getElementById('totalEmployees').textContent = totalEmps;
+            document.getElementById('completedEmployees').textContent = completedEmps;
+            document.getElementById('avgScore').textContent = totalEmps > 0 ? Math.round((totalScores / totalEmps) / 3) + '%' : '0%';
+            document.getElementById('totalHours').textContent = Math.round(totalSessions * 0.75);
+        }
+
+        function renderEmployeesList() {
+            var container = document.getElementById('employeesList');
+            container.innerHTML = '';
+            
+            if (Object.keys(employeeDatabase).length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #666; padding: 40px;">No employee data yet. Employees will appear here after they complete training.</div>';
+                return;
+            }
+            
+            Object.values(employeeDatabase).forEach(function(emp) {
+                var totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
+                var progressPercent = Math.round(((emp.completedChapters || 0) / totalChapters) * 100);
+                var status = progressPercent >= 100 ? 'Complete' : progressPercent > 0 ? 'In Progress' : 'Not Started';
+                var statusColor = progressPercent >= 100 ? '#28a745' : progressPercent > 0 ? '#ffc107' : '#dc3545';
+                
+                var card = document.createElement('div');
+                card.className = 'employee-card';
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0; color: #083915; font-size: 20px;">${emp.name}</h4>
+                            <p style="margin: 8px 0; color: #666;">ID: ${emp.id} | Department: ${emp.department}</p>
+                            <div style="margin-top: 15px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span>Progress: ${progressPercent}%</span>
+                                    <span>Points: ${emp.totalPoints || 0}</span>
+                                </div>
+                                <div class="progress-bar" style="height: 8px;">
+                                    <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; margin-left: 25px;">
+                            <div style="color: ${statusColor}; font-weight: bold; font-size: 18px;">${status}</div>
+                            <div style="color: #666; margin-top: 5px;">${emp.completedChapters || 0}/${totalChapters} chapters</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterEmployees() {
+            var search = document.getElementById('searchEmployee').value.toLowerCase();
+            var cards = document.querySelectorAll('.employee-card');
+            
+            cards.forEach(function(card) {
+                var text = card.textContent.toLowerCase();
+                card.style.display = text.includes(search) ? 'block' : 'none';
+            });
+        }
+
+        function refreshEmployeeData() {
+            renderEmployeesList();
+            updateManagerStats();
+            showNotification('Employee data refreshed! 🔄', 'success');
+        }
+
+        function exportAllData() {
+            var data = 'Employee ID,Name,Department,Chapters Completed,Total Points,Status\n';
+            Object.values(employeeDatabase).forEach(function(emp) {
+                var totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
+                var progressPercent = Math.round(((emp.completedChapters || 0) / totalChapters) * 100);
+                var status = progressPercent >= 100 ? 'Complete' : progressPercent > 0 ? 'In Progress' : 'Not Started';
+                data += `${emp.id},${emp.name},${emp.department},${emp.completedChapters || 0},${emp.totalPoints || 0},${status}\n`;
+            });
+            
+            var blob = new Blob([data], { type: 'text/csv' });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'ess-a-bagel-training-report.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            showNotification('Training report exported! 📥', 'success');
+        }
+
+        // Utility functions
+        function showNotification(message, type) {
+            var colors = {
+                success: '#28a745',
+                info: '#17a2b8',
+                warning: '#ffc107',
+                error: '#dc3545'
+            };
+
+            var notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.background = colors[type] || colors.info;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        // Initialize the application
+        updateDebug('Complete Training System Ready! 🎓');
+        
+        // Display current URL for sharing
+        setTimeout(function() {
+            document.getElementById('currentURL').textContent = 'Current URL: ' + window.location.href;
+            updateDebug('Ready! Fill in your information to start training! 🥯');
+        }, 100);
+    </script>
+</body>
+</html>
