@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ess-a-Bagel Complete Training Academy</title>
+    <title>Ess-a-Bagel Employee Training Academy</title>
     <style>
         :root {
             --primary-color: #083915;
@@ -77,6 +77,7 @@
             font-size: 3rem;
             margin-right: 15px;
             animation: bounce 2s infinite;
+            cursor: pointer;
         }
 
         @keyframes bounce {
@@ -476,7 +477,7 @@
             to { transform: scale(1); opacity: 1; }
         }
 
-        .hidden { display: none; }
+        .hidden { display: none !important; }
 
         .notification {
             position: fixed;
@@ -537,20 +538,6 @@
             .stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
             .btn { width: 100%; margin: 5px 0; }
             .modal-content { padding: 25px; margin: 20px; }
-        }
-
-        .employee-card {
-            background: var(--light-bg);
-            padding: 25px;
-            margin: 15px 0;
-            border-radius: var(--border-radius);
-            border-left: 4px solid var(--primary-color);
-            transition: var(--transition);
-        }
-
-        .employee-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
         }
 
         .sharing-section {
@@ -616,14 +603,93 @@
             color: var(--white);
             border-color: var(--danger-color);
         }
+
+        .employee-card {
+            background: var(--light-bg);
+            padding: 25px;
+            margin: 15px 0;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .employee-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .password-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1100;
+            backdrop-filter: blur(8px);
+        }
+
+        .password-content {
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: modalIn 0.3s ease;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            font-size: 16px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: monospace;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(8,57,21,0.1);
+        }
+
+        .custom-confirm {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1200;
+        }
+
+        .confirm-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Login Screen -->
+        <!-- Employee Registration - Default Landing Page -->
         <div id="loginScreen">
             <div class="header">
-                <span class="brand-logo">🥯</span>
+                <span class="brand-logo" onclick="logoClickCounter()">🥯</span>
                 <h1>Ess-a-Bagel Training Academy</h1>
                 <p class="subtitle">Master the Art of Authentic New York Bagels</p>
             </div>
@@ -654,22 +720,6 @@
                 </div>
                 
                 <button class="btn btn-full" onclick="startTraining()">🚀 Begin Your Training Adventure</button>
-                
-                <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                    <button class="btn btn-secondary" onclick="showManagerView()">📊 Manager Dashboard</button>
-                    <button class="btn btn-warning" onclick="showDemo()">👁️ View Demo</button>
-                </div>
-                
-                <div class="sharing-section">
-                    <h3 style="color: var(--primary-color); margin-bottom: 20px;">📤 Share Training System</h3>
-                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                        <button class="btn btn-small" onclick="copyTrainingURL()">📋 Copy Link</button>
-                        <button class="btn btn-small" onclick="generateQR()">📱 QR Code</button>
-                        <button class="btn btn-small" onclick="downloadSystem()">💾 Download</button>
-                        <button class="btn btn-small" onclick="showEmailTemplate()">📧 Email</button>
-                    </div>
-                    <div class="url-display" id="currentURL">Loading URL...</div>
-                </div>
             </div>
         </div>
 
@@ -678,7 +728,7 @@
             <div class="header">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                     <div>
-                        <span class="brand-logo">🥯</span>
+                        <span class="brand-logo" onclick="logoClickCounter()">🥯</span>
                         <span style="font-size: 2rem; font-weight: 700;">Training Academy</span>
                         <div style="margin-top: 10px;">
                             <span style="opacity: 0.9;">Welcome back, </span>
@@ -780,10 +830,11 @@
                     <div>
                         <span class="brand-logo">📊</span>
                         <span style="font-size: 2rem; font-weight: 700;">Manager Dashboard</span>
+                        <div style="opacity: 0.8; margin-top: 5px;">Authorized Access Only</div>
                     </div>
                     <div>
                         <button class="btn btn-success" onclick="exportAllData()">📥 Export Data</button>
-                        <button class="btn btn-secondary" onclick="logout()">← Back</button>
+                        <button class="btn btn-secondary" onclick="logout()">← Back to Login</button>
                     </div>
                 </div>
             </div>
@@ -812,8 +863,35 @@
                 <div style="margin-bottom: 25px;">
                     <input type="text" id="searchEmployee" class="form-input" placeholder="🔍 Search employees..." onkeyup="filterEmployees()" style="width: 300px; display: inline-block; margin-right: 15px;">
                     <button class="btn" onclick="refreshData()">🔄 Refresh</button>
+                    <button class="btn btn-warning" onclick="clearAllData()">🗑️ Clear All Data</button>
                 </div>
                 <div id="employeesList"></div>
+            </div>
+            
+            <div class="card">
+                <div class="sharing-section">
+                    <h3 style="color: var(--primary-color); margin-bottom: 20px;">📤 Share Training System</h3>
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-small" onclick="copyTrainingURL()">📋 Copy Link</button>
+                        <button class="btn btn-small" onclick="generateQR()">📱 QR Code</button>
+                        <button class="btn btn-small" onclick="downloadSystem()">💾 Download</button>
+                        <button class="btn btn-small" onclick="showEmailTemplate()">📧 Email</button>
+                    </div>
+                    <div class="url-display" id="currentURL">Loading URL...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password Modal -->
+        <div id="passwordModal" class="password-modal hidden">
+            <div class="password-content">
+                <h2 style="color: var(--primary-color); margin-bottom: 20px;">🔐 Manager Access</h2>
+                <p style="color: var(--text-light); margin-bottom: 20px;">Enter manager password to access dashboard</p>
+                <input type="password" id="managerPassword" class="password-input" placeholder="Enter Password" onkeypress="checkPasswordEnter(event)" />
+                <div style="margin-top: 20px;">
+                    <button class="btn" onclick="verifyManagerPassword()">🔓 Access Dashboard</button>
+                    <button class="btn btn-secondary" onclick="closePasswordModal()">❌ Cancel</button>
+                </div>
             </div>
         </div>
 
@@ -896,21 +974,38 @@ Thank you!
                 </div>
             </div>
         </div>
+
+        <!-- Custom Confirm Dialog -->
+        <div id="customConfirm" class="custom-confirm hidden">
+            <div class="confirm-content">
+                <h3 style="color: var(--primary-color); margin-bottom: 20px;">Confirm Action</h3>
+                <p id="confirmMessage" style="margin-bottom: 25px;">Are you sure?</p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button class="btn btn-secondary" onclick="confirmAction(false)">Cancel</button>
+                    <button class="btn btn-danger" onclick="confirmAction(true)">Confirm</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Application state with adaptive learning
-        var currentEmployee = null;
-        var employeeDatabase = {};
-        var currentModule = null;
-        var currentChapter = 0;
-        var currentQuiz = 0;
-        var totalPoints = 0;
-        var completedChapters = 0;
-        var adaptiveData = {};
+        // Application State
+        const MANAGER_PASSWORD = "admin2024";
+        let logoClickCount = 0;
+        let logoClickTimer = null;
+        let isManagerMode = false;
+        let currentEmployee = null;
+        let employeeDatabase = {};
+        let currentModule = null;
+        let currentChapter = 0;
+        let currentQuiz = 0;
+        let totalPoints = 0;
+        let completedChapters = 0;
+        let adaptiveData = {};
+        let pendingConfirmCallback = null;
 
-        // Comprehensive training modules
-        var trainingModules = [
+        // Training Modules Data
+        const trainingModules = [
             {
                 id: 1,
                 title: "Foundation & Company Culture",
@@ -1218,67 +1313,6 @@ Thank you!
                         ]
                     },
                     {
-                        title: "Boiling Science",
-                        content: `
-                            <div class="key-point">
-                                <strong>🧪 Why Boil Before Baking:</strong>
-                            </div>
-
-                            <h3>⚗️ The Science:</h3>
-                            <ul>
-                                <li><strong>Gelatinization:</strong> Surface starches form protective barrier</li>
-                                <li><strong>Texture Development:</strong> Creates characteristic chewiness</li>
-                                <li><strong>Crust Formation:</strong> Enables golden, shiny exterior</li>
-                                <li><strong>Shape Setting:</strong> Prevents over-rising in oven</li>
-                                <li><strong>Flavor Concentration:</strong> Intensifies taste</li>
-                            </ul>
-
-                            <div class="key-point">
-                                <strong>🌡️ Specifications:</strong><br>
-                                • Temperature: 212°F (100°C) rolling boil<br>
-                                • Duration: 30-60 seconds per side<br>
-                                • Additive: Malt syrup for color/flavor
-                            </div>
-
-                            <h3>⏱️ Timing Process:</h3>
-                            <ol>
-                                <li><strong>0-10 sec:</strong> Surface sealing begins</li>
-                                <li><strong>10-30 sec:</strong> Starch gelatinization</li>
-                                <li><strong>30-45 sec:</strong> Interior steaming starts</li>
-                                <li><strong>45-60 sec:</strong> Color development prep</li>
-                            </ol>
-
-                            <div class="warning-box">
-                                <strong>⚠️ Safety:</strong> Boiling water extremely dangerous. Use proper equipment and safety protocols.
-                            </div>
-                        `,
-                        quizzes: [
-                            {
-                                question: "What temperature should boiling water be?",
-                                options: ["200°F", "212°F", "220°F", "180°F"],
-                                correct: 1,
-                                points: 10
-                            },
-                            {
-                                question: "How long should each side be boiled?",
-                                options: ["10-20 seconds", "30-60 seconds", "1-2 minutes", "5 minutes"],
-                                correct: 1,
-                                points: 10
-                            },
-                            {
-                                question: "What does starch gelatinization create?",
-                                options: [
-                                    "Faster cooking",
-                                    "Protective barrier and characteristic chewiness",
-                                    "Lower cost",
-                                    "Longer shelf life"
-                                ],
-                                correct: 1,
-                                points: 15
-                            }
-                        ]
-                    },
-                    {
                         title: "Fresh Daily Standards",
                         content: `
                             <div class="key-point">
@@ -1309,14 +1343,6 @@ Thank you!
                                 <li><strong>Aroma:</strong> Fresh-baked bread smell</li>
                                 <li><strong>Temperature:</strong> Warm or proper room temp</li>
                                 <li><strong>Sound:</strong> Slight crust sound when tapped</li>
-                            </ul>
-
-                            <h3>📦 Storage Rules:</h3>
-                            <ul>
-                                <li><strong>Display Time:</strong> Max 8 hours room temperature</li>
-                                <li><strong>Storage:</strong> Open baskets for air circulation</li>
-                                <li><strong>Rotation:</strong> First made, first sold (FIFO)</li>
-                                <li><strong>Temperature:</strong> Never refrigerate - affects texture</li>
                             </ul>
 
                             <div class="warning-box">
@@ -1420,174 +1446,6 @@ Thank you!
                                 points: 10
                             }
                         ]
-                    },
-                    {
-                        title: "Managing Multiple Customers",
-                        content: `
-                            <h3>🎪 Balancing Multiple Customers:</h3>
-
-                            <h3>When New Customers Arrive:</h3>
-                            <ol>
-                                <li><strong>Immediate Acknowledgment:</strong> Eye contact within 10 seconds</li>
-                                <li><strong>Verbal Assurance:</strong> "I'll be right with you"</li>
-                                <li><strong>Continue Current Service:</strong> Don't rush or make mistakes</li>
-                                <li><strong>Check Back:</strong> Update if delayed</li>
-                                <li><strong>Serve Next:</strong> Thank current, greet next</li>
-                            </ol>
-
-                            <h3>💬 Wait Time Phrases:</h3>
-                            <ul>
-                                <li>"I'll be right with you - finishing up here"</li>
-                                <li>"Thanks for patience, you're next"</li>
-                                <li>"One moment and I'll take care of you"</li>
-                                <li>"I see you waiting - be right there!"</li>
-                            </ul>
-
-                            <div class="tip-box">
-                                <strong>🎯 Pro Tip:</strong> For complex orders, explain to waiting customers: "Large order, just couple more minutes" - transparency reduces frustration.
-                            </div>
-
-                            <h3>🚨 Signs You Need Help:</h3>
-                            <ul>
-                                <li>Line extends beyond 3-4 people</li>
-                                <li>Orders taking over 2 minutes each</li>
-                                <li>Customers showing impatience</li>
-                                <li>You're feeling rushed/stressed</li>
-                            </ul>
-
-                            <h3>📞 Calling for Backup:</h3>
-                            <ul>
-                                <li><strong>Alert Management:</strong> "Can I get backup up front?"</li>
-                                <li><strong>Tell Customers:</strong> "Getting additional help"</li>
-                                <li><strong>Stay Calm:</strong> Maintain professional demeanor</li>
-                                <li><strong>Thank Team:</strong> Acknowledge help when arrives</li>
-                            </ul>
-                        `,
-                        quizzes: [
-                            {
-                                question: "When should you call for backup?",
-                                options: [
-                                    "Never, handle it alone",
-                                    "When line exceeds 3-4 people or orders take over 2 minutes",
-                                    "Only during lunch rush",
-                                    "When manager tells you"
-                                ],
-                                correct: 1,
-                                points: 15
-                            },
-                            {
-                                question: "What should you do for complex orders with waiting customers?",
-                                options: [
-                                    "Rush through the order",
-                                    "Ignore waiting customers",
-                                    "Explain it's a large order and will take couple more minutes",
-                                    "Ask customer to come back later"
-                                ],
-                                correct: 2,
-                                points: 15
-                            },
-                            {
-                                question: "Best way to handle waiting customers?",
-                                options: [
-                                    "Let them wait silently",
-                                    "Acknowledge immediately, provide updates, maintain professional service",
-                                    "Tell them to be patient",
-                                    "Point to the menu"
-                                ],
-                                correct: 1,
-                                points: 10
-                            }
-                        ]
-                    },
-                    {
-                        title: "Three Service Goals",
-                        content: `
-                            <h3>🌟 Three Guest Service Goals:</h3>
-                            
-                            <div class="key-point">
-                                <strong>1. 😊 Think Positively</strong><br>
-                                • Maintain upbeat, optimistic attitude<br>
-                                • See challenges as opportunities<br>
-                                • Focus on solutions, not problems<br>
-                                • Spread positive energy
-                            </div>
-
-                            <h3>How to Think Positively:</h3>
-                            <ul>
-                                <li><strong>Reframe:</strong> "How can I make this work?" vs "This won't work"</li>
-                                <li><strong>Focus Wins:</strong> Celebrate successful interactions</li>
-                                <li><strong>Learn from Mistakes:</strong> View errors as growth opportunities</li>
-                                <li><strong>Stay Solution-Oriented:</strong> Always offer alternatives</li>
-                            </ul>
-
-                            <div class="key-point">
-                                <strong>2. 🤝 Make Friends with Every Guest</strong><br>
-                                • Create genuine personal connections<br>
-                                • Remember regular customers' preferences<br>
-                                • Show authentic interest in their day<br>
-                                • Build relationships that bring them back
-                            </div>
-
-                            <h3>Friendship-Building:</h3>
-                            <ul>
-                                <li><strong>Use Names:</strong> Ask for and remember names</li>
-                                <li><strong>Personal Questions:</strong> "How's your day?" "Any plans?"</li>
-                                <li><strong>Remember Details:</strong> "How was interview?" "Kids like bagels?"</li>
-                                <li><strong>Share Appropriately:</strong> Brief, relevant responses</li>
-                            </ul>
-
-                            <div class="key-point">
-                                <strong>3. 🚀 Go Above and Beyond</strong><br>
-                                • Exceed expectations when possible<br>
-                                • Anticipate customer needs<br>
-                                • Provide extra value without being asked<br>
-                                • Create memorable "wow" moments
-                            </div>
-
-                            <h3>Above and Beyond Examples:</h3>
-                            <ul>
-                                <li><strong>Extra Samples:</strong> Offer tastes of new items</li>
-                                <li><strong>Special Packaging:</strong> Extra care for gifts/travel</li>
-                                <li><strong>Helpful Suggestions:</strong> Recommend perfect pairings</li>
-                                <li><strong>Problem Solving:</strong> Creative solutions to requests</li>
-                                <li><strong>Education:</strong> Share interesting facts about process</li>
-                            </ul>
-                        `,
-                        quizzes: [
-                            {
-                                question: "What are the three guest service goals?",
-                                options: [
-                                    "Fast, cheap, convenient",
-                                    "Think positively, make friends, go above and beyond",
-                                    "Smile, serve, clean",
-                                    "Greet, process, thank"
-                                ],
-                                correct: 1,
-                                points: 15
-                            },
-                            {
-                                question: "How do you 'make friends' with customers?",
-                                options: [
-                                    "Share personal problems",
-                                    "Ask for their phone numbers",
-                                    "Remember names, show interest in their day, remember details",
-                                    "Give them free food"
-                                ],
-                                correct: 2,
-                                points: 15
-                            },
-                            {
-                                question: "What does 'go above and beyond' mean?",
-                                options: [
-                                    "Work extra hours",
-                                    "Exceed expectations and create memorable moments",
-                                    "Do manager's job",
-                                    "Ignore company policies"
-                                ],
-                                correct: 1,
-                                points: 10
-                            }
-                        ]
                     }
                 ]
             },
@@ -1628,15 +1486,6 @@ Thank you!
                             <div class="warning-box">
                                 <strong>⚠️ Violations:</strong> Improper hand washing can result in fines, failed inspections, closure.
                             </div>
-
-                            <h3>❌ Common Mistakes:</h3>
-                            <ul>
-                                <li>Washing less than 20 seconds</li>
-                                <li>Using only cold water</li>
-                                <li>Insufficient soap</li>
-                                <li>Missing thumbs or wrists</li>
-                                <li>Drying with dirty towels</li>
-                            </ul>
                         `,
                         quizzes: [
                             {
@@ -1689,15 +1538,6 @@ Thank you!
                                 • Steam from equipment<br>
                                 • Hot metal surfaces and trays
                             </div>
-
-                            <h3>🔥 Burn Prevention:</h3>
-                            <ul>
-                                <li><strong>Protection:</strong> Oven mitts, aprons, closed-toe shoes</li>
-                                <li><strong>Check Temperature:</strong> Test heat before contact</li>
-                                <li><strong>Communication:</strong> Warn "HOT!" when carrying</li>
-                                <li><strong>Use Tools:</strong> Not hands for hot items</li>
-                                <li><strong>Cool Down:</strong> Let equipment cool before cleaning</li>
-                            </ul>
 
                             <div class="key-point">
                                 <strong>2. 🔪 Cuts</strong><br>
@@ -1800,25 +1640,9 @@ Thank you!
                                 <li><strong>Process Payment:</strong> Select payment method</li>
                             </ol>
 
-                            <h3>🔧 Common Modifiers:</h3>
-                            <ul>
-                                <li><strong>Bagel Prep:</strong> Toasted, not toasted, lightly toasted</li>
-                                <li><strong>Cream Cheese:</strong> Light, regular, extra amount</li>
-                                <li><strong>Spread Type:</strong> Plain, flavored varieties</li>
-                                <li><strong>Special Requests:</strong> Cut in half, whole, etc.</li>
-                            </ul>
-
                             <div class="tip-box">
                                 <strong>🎯 Accuracy First:</strong> Take time to enter correctly. Fixing mistakes takes longer than doing right first time.
                             </div>
-
-                            <h3>⚙️ Order Management:</h3>
-                            <ul>
-                                <li><strong>Hold Orders:</strong> Save incomplete orders</li>
-                                <li><strong>Void Items:</strong> Remove incorrect items before payment</li>
-                                <li><strong>Split Payments:</strong> Multiple payment methods</li>
-                                <li><strong>Discounts:</strong> Apply authorized discounts properly</li>
-                            </ul>
 
                             <div class="warning-box">
                                 <strong>🔐 Security:</strong> Never share login code. You're responsible for all transactions under your login.
@@ -1852,93 +1676,6 @@ Thank you!
                                 ],
                                 correct: 1,
                                 points: 15
-                            }
-                        ]
-                    },
-                    {
-                        title: "Payment Processing",
-                        content: `
-                            <div class="key-point">
-                                <strong>💳 Professional Decline Response:</strong><br>
-                                "I'm having trouble getting authorization. Do you have another form of payment?"
-                            </div>
-
-                            <h3>✅ Accepted Payment Methods:</h3>
-                            <ul>
-                                <li><strong>Credit Cards:</strong> Visa, MasterCard, Amex, Discover</li>
-                                <li><strong>Debit Cards:</strong> With PIN or signature</li>
-                                <li><strong>Cash:</strong> Bills up to $100</li>
-                                <li><strong>Gift Cards:</strong> Ess-a-Bagel branded cards</li>
-                                <li><strong>Mobile Payments:</strong> Apple Pay, Google Pay, Samsung Pay</li>
-                            </ul>
-
-                            <h3>🚫 When Cards Decline:</h3>
-                            <ul>
-                                <li><strong>Stay Professional:</strong> Never use "declined" or "rejected"</li>
-                                <li><strong>Offer Alternatives:</strong> "Try another card?"</li>
-                                <li><strong>Suggest Solutions:</strong> "Sometimes credit works better"</li>
-                                <li><strong>Be Discreet:</strong> Handle quietly to avoid embarrassment</li>
-                            </ul>
-
-                            <h3>💵 Cash Handling:</h3>
-                            <ul>
-                                <li><strong>Bill Limit:</strong> $100 maximum accepted</li>
-                                <li><strong>Verification:</strong> Check $50/$100 bills for authenticity</li>
-                                <li><strong>Count Back:</strong> Count change to customer</li>
-                                <li><strong>Secure Storage:</strong> Large bills to safe drop</li>
-                            </ul>
-
-                            <div class="key-point">
-                                <strong>🔍 Counterfeit Detection:</strong><br>
-                                • Feel texture (genuine bills have distinct feel)<br>
-                                • Check watermarks and security strips<br>
-                                • Use detection pen on $50+ bills<br>
-                                • When in doubt, ask manager
-                            </div>
-
-                            <h3>🎁 Gift Cards:</h3>
-                            <ul>
-                                <li><strong>Balance Check:</strong> Verify balance before order</li>
-                                <li><strong>Partial Payment:</strong> Use gift card amount, then additional</li>
-                                <li><strong>Activation:</strong> New cards must be activated at purchase</li>
-                                <li><strong>Issues:</strong> Call manager for problems</li>
-                            </ul>
-
-                            <h3>🧾 Receipts:</h3>
-                            <ul>
-                                <li><strong>Always Offer:</strong> "Would you like receipt?"</li>
-                                <li><strong>Email Options:</strong> Digital receipts available</li>
-                                <li><strong>Merchant Copy:</strong> Keep copies as required</li>
-                            </ul>
-                        `,
-                        quizzes: [
-                            {
-                                question: "What should you say when a card is declined?",
-                                options: [
-                                    "Your card was declined",
-                                    "I'm having trouble getting authorization, try another form of payment?",
-                                    "Your card doesn't work",
-                                    "Use cash instead"
-                                ],
-                                correct: 1,
-                                points: 15
-                            },
-                            {
-                                question: "Maximum cash bill amount accepted?",
-                                options: ["$50", "$100", "$200", "No limit"],
-                                correct: 1,
-                                points: 10
-                            },
-                            {
-                                question: "What should you do with large bills?",
-                                options: [
-                                    "Keep in register",
-                                    "Put in safe drop immediately",
-                                    "Give to manager",
-                                    "Hide under counter"
-                                ],
-                                correct: 1,
-                                points: 10
                             }
                         ]
                     }
@@ -1979,25 +1716,9 @@ Thank you!
                                 <li><strong>Specialty:</strong> Whole wheat, egg, jalapeño (seasonal)</li>
                             </ul>
 
-                            <h3>🧀 Cream Cheese Options:</h3>
-                            <ul>
-                                <li><strong>Plain:</strong> Regular and light versions</li>
-                                <li><strong>Flavored:</strong> Scallion, lox spread, vegetable</li>
-                                <li><strong>Sweet:</strong> Strawberry, blueberry, cinnamon raisin</li>
-                                <li><strong>Specialty:</strong> Seasonal and limited-time offerings</li>
-                            </ul>
-
                             <div class="tip-box">
                                 <strong>🍴 Sample Strategy:</strong> Offer samples of new/unfamiliar items. Tasting leads to purchasing more than descriptions alone.
                             </div>
-
-                            <h3>💡 Popular Combinations:</h3>
-                            <ul>
-                                <li><strong>Everything Bagel:</strong> + Scallion cream cheese</li>
-                                <li><strong>Sesame Bagel:</strong> + Lox spread</li>
-                                <li><strong>Cinnamon Raisin:</strong> + Cinnamon raisin cream cheese</li>
-                                <li><strong>Plain Bagel:</strong> + Vegetable cream cheese</li>
-                            </ul>
                         `,
                         quizzes: [
                             {
@@ -2024,208 +1745,150 @@ Thank you!
                                 points: 15
                             }
                         ]
-                    },
-                    {
-                        title: "Effective Upselling",
-                        content: `
-                            <div class="key-point">
-                                <strong>🎯 Perfect Upselling Example:</strong><br>
-                                "Would you like to add our signature cream cheese spread to that bagel?"
-                            </div>
-
-                            <h3>📈 Upselling Principles:</h3>
-                            <ul>
-                                <li><strong>Be Specific:</strong> Name exact items vs general suggestions</li>
-                                <li><strong>Add Value:</strong> Explain why addition enhances order</li>
-                                <li><strong>Time Appropriately:</strong> Suggest at natural points</li>
-                                <li><strong>Stay Genuine:</strong> Only suggest items that truly complement</li>
-                            </ul>
-
-                            <h3>🎪 Natural Opportunities:</h3>
-                            <ul>
-                                <li><strong>Plain Bagel:</strong> "Would you like cream cheese with that?"</li>
-                                <li><strong>Bagel with Spread:</strong> "Can I add coffee to go with that?"</li>
-                                <li><strong>Single Item:</strong> "Looking for a drink today?"</li>
-                                <li><strong>Small Order:</strong> "Add a side of fresh fruit?"</li>
-                            </ul>
-
-                            <div class="key-point">
-                                <strong>❌ What NOT to Say:</strong><br>
-                                • "Everything is good here" (too general)<br>
-                                • "Do you want anything else?" (yes/no question)<br>
-                                • "Make it a combo?" (unclear value)
-                            </div>
-
-                            <h3>💬 Effective Phrases:</h3>
-                            <ul>
-                                <li>"Would you like to try our [specific item] with that?"</li>
-                                <li>"Can I add [specific beverage] to complete your order?"</li>
-                                <li>"Our [specific combo] pairs perfectly with your choice"</li>
-                                <li>"Would you like to make that a [specific upgrade]?"</li>
-                            </ul>
-
-                            <h3>👁️ Reading Customer Cues:</h3>
-                            <ul>
-                                <li><strong>Browsing Menu:</strong> "Looking for something specific?"</li>
-                                <li><strong>Hesitating:</strong> "Like to try sample of [item]?"</li>
-                                <li><strong>Multiple People:</strong> "Ordering for the group?"</li>
-                                <li><strong>Regular Customer:</strong> "Your usual, plus [new item]?"</li>
-                            </ul>
-
-                            <div class="tip-box">
-                                <strong>⏰ Timing is Key:</strong> Suggest additions before finalizing order, after they've made primary selection. Feels helpful, not pushy.
-                            </div>
-
-                            <h3>💎 Value-Added Suggestions:</h3>
-                            <ul>
-                                <li><strong>Meal Completion:</strong> "Coffee would go perfectly with that bagel"</li>
-                                <li><strong>Convenience:</strong> "Extra bagel for tomorrow?"</li>
-                                <li><strong>Special Occasions:</strong> "Getting anything for the office?"</li>
-                                <li><strong>Weather-Based:</strong> "Cold out - hot coffee to warm up?"</li>
-                            </ul>
-
-                            <div class="warning-box">
-                                <strong>🚫 Don't Oversell:</strong> One or two appropriate suggestions perfect. Too many feels pushy and reduces satisfaction.
-                            </div>
-                        `,
-                        quizzes: [
-                            {
-                                question: "Customer orders plain bagel. Best upselling approach?",
-                                options: [
-                                    "Would you like to add our signature cream cheese spread?",
-                                    "Everything is good here",
-                                    "Do you want anything else?",
-                                    "That'll be $2.50"
-                                ],
-                                correct: 0,
-                                points: 15
-                            },
-                            {
-                                question: "When should you suggest additions?",
-                                options: [
-                                    "Before they order anything",
-                                    "After payment is complete",
-                                    "Before finalizing order, after primary selection",
-                                    "Only if they ask"
-                                ],
-                                correct: 2,
-                                points: 15
-                            },
-                            {
-                                question: "What makes upselling effective?",
-                                options: [
-                                    "Being pushy and persistent",
-                                    "Being specific, adding value, timing appropriately, staying genuine",
-                                    "Offering most expensive items",
-                                    "Making many suggestions quickly"
-                                ],
-                                correct: 1,
-                                points: 10
-                            }
-                        ]
                     }
                 ]
             }
         ];
 
-        // Adaptive learning logic
-        function updateAdaptiveData(moduleId, chapterId, quizIndex, correct) {
-            var key = moduleId + '_' + chapterId + '_' + quizIndex;
-            if (!adaptiveData[currentEmployee.id]) {
-                adaptiveData[currentEmployee.id] = {};
-            }
+        // Initialize Application
+        function initializeApp() {
+            // Ensure only login screen is visible
+            showScreen('loginScreen');
             
-            if (!adaptiveData[currentEmployee.id][key]) {
-                adaptiveData[currentEmployee.id][key] = {
-                    attempts: 0,
-                    correct: 0,
-                    lastScore: 0
+            // Initialize sample data
+            initializeSampleData();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Clear any existing state
+            resetState();
+            
+            console.log('Training Academy initialized successfully');
+        }
+
+        function resetState() {
+            currentEmployee = null;
+            totalPoints = 0;
+            completedChapters = 0;
+            isManagerMode = false;
+            logoClickCount = 0;
+            currentModule = null;
+            currentChapter = 0;
+            currentQuiz = 0;
+            
+            // Clear form fields
+            const empId = document.getElementById('empId');
+            const empName = document.getElementById('empName');
+            const empDept = document.getElementById('empDept');
+            
+            if (empId) empId.value = '';
+            if (empName) empName.value = '';
+            if (empDept) empDept.value = '';
+        }
+
+        function showScreen(screenId) {
+            const screens = ['loginScreen', 'trainingInterface', 'managerDashboard'];
+            screens.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    if (id === screenId) {
+                        element.classList.remove('hidden');
+                    } else {
+                        element.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function initializeSampleData() {
+            if (Object.keys(employeeDatabase).length === 0) {
+                employeeDatabase['EMP001'] = {
+                    id: 'EMP001',
+                    name: 'Sarah Johnson',
+                    department: 'Front Counter',
+                    progress: {1: {completed: true, chaptersCompleted: 3}, 2: {completed: false, chaptersCompleted: 1}},
+                    totalPoints: 120,
+                    completedChapters: 4,
+                    sessions: [{startTime: new Date().toISOString(), pointsEarned: 120}]
+                };
+                
+                employeeDatabase['EMP002'] = {
+                    id: 'EMP002',
+                    name: 'Mike Chen',
+                    department: 'Kitchen',
+                    progress: {1: {completed: true, chaptersCompleted: 3}},
+                    totalPoints: 90,
+                    completedChapters: 3,
+                    sessions: [{startTime: new Date().toISOString(), pointsEarned: 90}]
                 };
             }
-            
-            adaptiveData[currentEmployee.id][key].attempts++;
-            if (correct) {
-                adaptiveData[currentEmployee.id][key].correct++;
-            }
-            adaptiveData[currentEmployee.id][key].lastScore = correct ? 100 : 0;
-            
-            updateAdaptiveDashboard();
         }
 
-        function updateAdaptiveDashboard() {
-            var weakAreas = [];
-            var strongAreas = [];
-            
-            if (adaptiveData[currentEmployee.id]) {
-                Object.keys(adaptiveData[currentEmployee.id]).forEach(function(key) {
-                    var data = adaptiveData[currentEmployee.id][key];
-                    var successRate = (data.correct / data.attempts) * 100;
-                    var parts = key.split('_');
-                    var moduleId = parseInt(parts[0]);
-                    var chapterId = parseInt(parts[1]);
-                    var quizIndex = parseInt(parts[2]);
-                    
-                    var module = trainingModules.find(m => m.id === moduleId);
-                    var chapter = module.chapters[chapterId];
-                    
-                    var area = {
-                        module: module.title,
-                        chapter: chapter.title,
-                        quiz: quizIndex + 1,
-                        rate: successRate,
-                        attempts: data.attempts
-                    };
-                    
-                    if (successRate < 70) {
-                        weakAreas.push(area);
-                    } else if (successRate >= 90) {
-                        strongAreas.push(area);
-                    }
-                });
-            }
-            
-            var weaknessDiv = document.getElementById('weaknessAreas');
-            var strengthDiv = document.getElementById('strengthAreas');
-            
-            if (weakAreas.length > 0) {
-                document.getElementById('adaptiveDashboard').classList.remove('hidden');
-                weaknessDiv.innerHTML = '<h4>🎯 Areas Needing Review:</h4>' + 
-                    weakAreas.map(area => 
-                        `<div>${area.module} - ${area.chapter} (Quiz ${area.quiz}) <span class="weakness-indicator">${Math.round(area.rate)}%</span></div>`
-                    ).join('');
-            } else {
-                weaknessDiv.innerHTML = '';
-            }
-            
-            if (strongAreas.length > 0) {
-                strengthDiv.innerHTML = '<h4>💪 Your Strengths:</h4>' + 
-                    strongAreas.map(area => 
-                        `<div>${area.module} - ${area.chapter} (Quiz ${area.quiz}) <span class="strength-indicator">${Math.round(area.rate)}%</span></div>`
-                    ).join('');
-            } else {
-                strengthDiv.innerHTML = '';
-            }
-            
-            // Update mastery score
-            var totalAttempts = 0;
-            var totalCorrect = 0;
-            
-            if (adaptiveData[currentEmployee.id]) {
-                Object.values(adaptiveData[currentEmployee.id]).forEach(function(data) {
-                    totalAttempts += data.attempts;
-                    totalCorrect += data.correct;
-                });
-            }
-            
-            var masteryScore = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 100;
-            document.getElementById('adaptiveScore').textContent = masteryScore + '%';
+        function setupEventListeners() {
+            // Keyboard shortcuts for manager access
+            document.addEventListener('keydown', function(event) {
+                if (event.ctrlKey && event.shiftKey && event.key === 'M') {
+                    event.preventDefault();
+                    showPasswordModal();
+                }
+            });
         }
 
-        // Training system functions
+        // Logo Click Counter for Hidden Manager Access
+        function logoClickCounter() {
+            logoClickCount++;
+            
+            if (logoClickTimer) {
+                clearTimeout(logoClickTimer);
+            }
+            
+            logoClickTimer = setTimeout(() => {
+                logoClickCount = 0;
+            }, 1000);
+            
+            if (logoClickCount >= 3) {
+                logoClickCount = 0;
+                showPasswordModal();
+            }
+        }
+
+        // Manager Access Functions
+        function showPasswordModal() {
+            document.getElementById('passwordModal').classList.remove('hidden');
+            document.getElementById('managerPassword').focus();
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.add('hidden');
+            document.getElementById('managerPassword').value = '';
+        }
+
+        function checkPasswordEnter(event) {
+            if (event.key === 'Enter') {
+                verifyManagerPassword();
+            }
+        }
+
+        function verifyManagerPassword() {
+            const password = document.getElementById('managerPassword').value;
+            
+            if (password === MANAGER_PASSWORD) {
+                isManagerMode = true;
+                closePasswordModal();
+                showManagerView();
+                showNotification('Manager access granted! 🔐', 'success');
+            } else {
+                showNotification('Incorrect password! Access denied. 🚫', 'error');
+                document.getElementById('managerPassword').value = '';
+            }
+        }
+
+        // Training Functions
         function startTraining() {
-            var empId = document.getElementById('empId').value.trim();
-            var empName = document.getElementById('empName').value.trim();
-            var empDept = document.getElementById('empDept').value;
+            const empId = document.getElementById('empId').value.trim();
+            const empName = document.getElementById('empName').value.trim();
+            const empDept = document.getElementById('empDept').value;
             
             if (!empId || !empName || !empDept) {
                 showNotification('Please fill in all fields to continue', 'warning');
@@ -2258,9 +1921,7 @@ Thank you!
         }
 
         function showTrainingInterface() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('managerDashboard').style.display = 'none';
-            document.getElementById('trainingInterface').style.display = 'block';
+            showScreen('trainingInterface');
             
             document.getElementById('currentEmployee').textContent = currentEmployee.name;
             document.getElementById('employeeDept').textContent = currentEmployee.department;
@@ -2271,68 +1932,37 @@ Thank you!
         }
 
         function showManagerView() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('trainingInterface').style.display = 'none';
-            document.getElementById('managerDashboard').style.display = 'block';
+            if (!isManagerMode) {
+                showNotification('Manager access required! Triple-click the logo. 🔐', 'warning');
+                return;
+            }
             
+            showScreen('managerDashboard');
             updateManagerStats();
             renderEmployeesList();
-        }
-
-        function showDemo() {
-            currentEmployee = {
-                id: 'DEMO001',
-                name: 'Demo User',
-                department: 'Front Counter',
-                startTime: new Date().toISOString()
-            };
-            
-            // Create demo data
-            employeeDatabase['DEMO001'] = {
-                id: 'DEMO001',
-                name: 'Demo User',
-                department: 'Front Counter',
-                progress: {1: {completed: false, chaptersCompleted: 1}},
-                totalPoints: 25,
-                completedChapters: 1,
-                sessions: []
-            };
-            
-            totalPoints = 25;
-            completedChapters = 1;
-            
-            showTrainingInterface();
-            showNotification('Welcome to the demo! This shows how the training system works.', 'info');
+            document.getElementById('currentURL').textContent = window.location.href;
         }
 
         function logout() {
-            document.getElementById('loginScreen').style.display = 'block';
-            document.getElementById('trainingInterface').style.display = 'none';
-            document.getElementById('managerDashboard').style.display = 'none';
-            
-            currentEmployee = null;
-            totalPoints = 0;
-            completedChapters = 0;
-            
-            document.getElementById('empId').value = '';
-            document.getElementById('empName').value = '';
-            document.getElementById('empDept').value = '';
+            showScreen('loginScreen');
+            resetState();
         }
 
+        // Training Module Rendering
         function renderTrainingModules() {
-            var container = document.getElementById('modulesDisplay');
+            const container = document.getElementById('modulesDisplay');
             container.innerHTML = '';
             
-            trainingModules.forEach(function(module) {
-                var progress = employeeDatabase[currentEmployee.id].progress[module.id] || { completed: false, chaptersCompleted: 0 };
-                var isCompleted = progress.completed;
-                var isLocked = module.id > 1 && !employeeDatabase[currentEmployee.id].progress[module.id - 1]?.completed;
+            trainingModules.forEach(module => {
+                const progress = employeeDatabase[currentEmployee.id].progress[module.id] || { completed: false, chaptersCompleted: 0 };
+                const isCompleted = progress.completed;
+                const isLocked = module.id > 1 && !employeeDatabase[currentEmployee.id].progress[module.id - 1]?.completed;
                 
-                var moduleDiv = document.createElement('div');
+                const moduleDiv = document.createElement('div');
                 moduleDiv.className = 'module-card' + (isCompleted ? ' completed' : '') + (isLocked ? ' locked' : '');
                 
-                var statusText = isCompleted ? '✅ Complete' : isLocked ? '🔒 Locked' : '▶️ Start Learning';
-                var totalPoints = module.chapters.reduce((sum, ch) => sum + ch.quizzes.reduce((qSum, q) => qSum + q.points, 0), 0);
+                const statusText = isCompleted ? '✅ Complete' : isLocked ? '🔒 Locked' : '▶️ Start Learning';
+                const totalPoints = module.chapters.reduce((sum, ch) => sum + ch.quizzes.reduce((qSum, q) => qSum + q.points, 0), 0);
                 
                 moduleDiv.innerHTML = `
                     <div class="module-header">
@@ -2366,9 +1996,7 @@ Thank you!
                 `;
                 
                 if (!isLocked) {
-                    moduleDiv.onclick = function() {
-                        startModule(module.id);
-                    };
+                    moduleDiv.onclick = () => startModule(module.id);
                 }
                 
                 container.appendChild(moduleDiv);
@@ -2383,10 +2011,10 @@ Thank you!
         }
 
         function showLesson() {
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('lessonView').style.display = 'block';
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('lessonView').classList.remove('hidden');
             
-            var chapter = currentModule.chapters[currentChapter];
+            const chapter = currentModule.chapters[currentChapter];
             document.getElementById('moduleProgress').textContent = currentModule.title;
             document.getElementById('chapterNum').textContent = currentChapter + 1;
             document.getElementById('totalChapters').textContent = currentModule.chapters.length;
@@ -2394,33 +2022,31 @@ Thank you!
             document.getElementById('lessonText').innerHTML = chapter.content;
             document.getElementById('progressFill').style.width = ((currentChapter + 1) / currentModule.chapters.length * 100) + '%';
             
-            document.getElementById('lessonContent').style.display = 'block';
-            document.getElementById('quizSection').style.display = 'none';
-            document.getElementById('takeQuizBtn').style.display = 'block';
-            document.getElementById('nextChapterBtn').style.display = 'none';
+            document.getElementById('lessonContent').classList.remove('hidden');
+            document.getElementById('quizSection').classList.add('hidden');
+            document.getElementById('takeQuizBtn').classList.remove('hidden');
+            document.getElementById('nextChapterBtn').classList.add('hidden');
         }
 
         function startQuizSequence() {
             currentQuiz = 0;
-            document.getElementById('lessonContent').style.display = 'none';
-            document.getElementById('quizSection').style.display = 'block';
-            document.getElementById('takeQuizBtn').style.display = 'none';
+            document.getElementById('lessonContent').classList.add('hidden');
+            document.getElementById('quizSection').classList.remove('hidden');
+            document.getElementById('takeQuizBtn').classList.add('hidden');
             
             setupQuizTabs();
             showCurrentQuiz();
         }
 
         function setupQuizTabs() {
-            var container = document.getElementById('quizSelector');
+            const container = document.getElementById('quizSelector');
             container.innerHTML = '';
             
-            for (var i = 0; i < 3; i++) {
-                var tab = document.createElement('div');
+            for (let i = 0; i < 3; i++) {
+                const tab = document.createElement('div');
                 tab.className = 'quiz-tab' + (i === 0 ? ' active' : '');
                 tab.innerHTML = 'Quiz ' + (i + 1);
-                tab.onclick = function(index) {
-                    return function() { selectQuiz(index); };
-                }(i);
+                tab.onclick = () => selectQuiz(i);
                 container.appendChild(tab);
             }
         }
@@ -2428,8 +2054,8 @@ Thank you!
         function selectQuiz(index) {
             currentQuiz = index;
             
-            var tabs = document.querySelectorAll('.quiz-tab');
-            tabs.forEach(function(tab, i) {
+            const tabs = document.querySelectorAll('.quiz-tab');
+            tabs.forEach((tab, i) => {
                 tab.classList.remove('active');
                 if (i === index) {
                     tab.classList.add('active');
@@ -2440,30 +2066,28 @@ Thank you!
         }
 
         function showCurrentQuiz() {
-            var quiz = currentModule.chapters[currentChapter].quizzes[currentQuiz];
+            const quiz = currentModule.chapters[currentChapter].quizzes[currentQuiz];
             document.getElementById('questionText').textContent = quiz.question;
             document.getElementById('quizProgress').textContent = `Quiz ${currentQuiz + 1} of 3`;
             
-            var container = document.getElementById('optionsContainer');
+            const container = document.getElementById('optionsContainer');
             container.innerHTML = '';
             
-            quiz.options.forEach(function(option, index) {
-                var button = document.createElement('button');
+            quiz.options.forEach((option, index) => {
+                const button = document.createElement('button');
                 button.className = 'quiz-option';
                 button.innerHTML = `<span style="background: var(--light-bg); color: var(--text-dark); width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">${String.fromCharCode(65 + index)}</span>${option}`;
-                button.onclick = function() {
-                    selectAnswer(index);
-                };
+                button.onclick = () => selectAnswer(index);
                 container.appendChild(button);
             });
         }
 
         function selectAnswer(answerIndex) {
-            var quiz = currentModule.chapters[currentChapter].quizzes[currentQuiz];
-            var isCorrect = answerIndex === quiz.correct;
+            const quiz = currentModule.chapters[currentChapter].quizzes[currentQuiz];
+            const isCorrect = answerIndex === quiz.correct;
             
-            var buttons = document.querySelectorAll('.quiz-option');
-            buttons.forEach(function(btn, i) {
+            const buttons = document.querySelectorAll('.quiz-option');
+            buttons.forEach((btn, i) => {
                 btn.onclick = null;
                 if (i === answerIndex) {
                     btn.classList.add(isCorrect ? 'correct' : 'incorrect');
@@ -2477,27 +2101,25 @@ Thank you!
             updateAdaptiveData(currentModule.id, currentChapter, currentQuiz, isCorrect);
             
             // Update quiz tab status
-            var currentTab = document.querySelectorAll('.quiz-tab')[currentQuiz];
+            const currentTab = document.querySelectorAll('.quiz-tab')[currentQuiz];
             currentTab.classList.remove('active');
             currentTab.classList.add(isCorrect ? 'completed' : 'failed');
             
-            var points = isCorrect ? quiz.points : 0;
+            const points = isCorrect ? quiz.points : 0;
             if (isCorrect) {
                 totalPoints += points;
                 employeeDatabase[currentEmployee.id].totalPoints = totalPoints;
             }
             
-            setTimeout(function() {
+            setTimeout(() => {
                 if (currentQuiz < 2) {
                     document.getElementById('nextQuizBtn').style.display = 'block';
                 } else {
-                    // All quizzes completed
-                    var allCorrect = checkAllQuizzesCompleted();
+                    const allCorrect = checkAllQuizzesCompleted();
                     if (allCorrect) {
                         completedChapters++;
                         employeeDatabase[currentEmployee.id].completedChapters = completedChapters;
                         
-                        // Update chapter progress
                         if (!employeeDatabase[currentEmployee.id].progress[currentModule.id]) {
                             employeeDatabase[currentEmployee.id].progress[currentModule.id] = { chaptersCompleted: 0 };
                         }
@@ -2506,7 +2128,6 @@ Thank you!
                             currentChapter + 1
                         );
                         
-                        // Check if module is complete
                         if (currentChapter >= currentModule.chapters.length - 1) {
                             employeeDatabase[currentEmployee.id].progress[currentModule.id].completed = true;
                         }
@@ -2524,10 +2145,10 @@ Thank you!
         }
 
         function checkAllQuizzesCompleted() {
-            var tabs = document.querySelectorAll('.quiz-tab');
-            var completedCount = 0;
+            const tabs = document.querySelectorAll('.quiz-tab');
+            let completedCount = 0;
             
-            tabs.forEach(function(tab) {
+            tabs.forEach(tab => {
                 if (tab.classList.contains('completed')) {
                     completedCount++;
                 }
@@ -2537,14 +2158,14 @@ Thank you!
         }
 
         function showCompletionModal(points, isCorrect, canProceed) {
-            var modalEmoji = canProceed ? '🎉' : isCorrect ? '✅' : '📚';
-            var modalTitle = canProceed ? 'Chapter Mastered!' : isCorrect ? 'Correct!' : 'Keep Learning!';
-            var modalMessage = canProceed ? 
+            const modalEmoji = canProceed ? '🎉' : isCorrect ? '✅' : '📚';
+            const modalTitle = canProceed ? 'Chapter Mastered!' : isCorrect ? 'Correct!' : 'Keep Learning!';
+            const modalMessage = canProceed ? 
                 'Excellent! You\'ve demonstrated mastery of this chapter.' :
                 isCorrect ? 'Great job on this quiz!' : 
                 'Good effort! Review the material and remember the key points.';
             
-            var masteryLevel = canProceed ? 'Expert' : isCorrect ? 'Good' : 'Needs Review';
+            const masteryLevel = canProceed ? 'Expert' : isCorrect ? 'Good' : 'Needs Review';
             
             document.getElementById('modalEmoji').textContent = modalEmoji;
             document.getElementById('modalTitle').textContent = modalTitle;
@@ -2552,19 +2173,19 @@ Thank you!
             document.getElementById('earnedPoints').textContent = '+' + points;
             document.getElementById('quizScore').textContent = isCorrect ? '100%' : '0%';
             document.getElementById('masteryLevel').textContent = masteryLevel;
-            document.getElementById('modal').style.display = 'flex';
+            document.getElementById('modal').classList.remove('hidden');
         }
 
         function closeModal() {
-            document.getElementById('modal').style.display = 'none';
+            document.getElementById('modal').classList.add('hidden');
             
-            var allCorrect = checkAllQuizzesCompleted();
+            const allCorrect = checkAllQuizzesCompleted();
             if (allCorrect) {
                 if (currentChapter >= currentModule.chapters.length - 1) {
                     showNotification('🎓 Module completed! Outstanding work!', 'success');
                     backToDashboard();
                 } else {
-                    document.getElementById('nextChapterBtn').style.display = 'block';
+                    document.getElementById('nextChapterBtn').classList.remove('hidden');
                 }
             } else {
                 showNotification('Complete remaining quizzes or review this chapter.', 'info');
@@ -2578,88 +2199,127 @@ Thank you!
         }
 
         function backToDashboard() {
-            document.getElementById('lessonView').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('lessonView').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
             renderTrainingModules();
             updateEmployeeStats();
         }
 
         function updateEmployeeStats() {
-            var totalChapters = trainingModules.reduce(function(sum, module) {
-                return sum + module.chapters.length;
-            }, 0);
-            
-            var progressPercent = Math.round((completedChapters / totalChapters) * 100);
+            const totalChapters = trainingModules.reduce((sum, module) => sum + module.chapters.length, 0);
+            const progressPercent = Math.round((completedChapters / totalChapters) * 100);
             
             document.getElementById('totalPoints').textContent = totalPoints;
             document.getElementById('chaptersCompleted').textContent = completedChapters;
             document.getElementById('overallProgress').textContent = progressPercent + '%';
         }
 
+        // Adaptive Learning Functions
+        function updateAdaptiveData(moduleId, chapterId, quizIndex, correct) {
+            const key = `${moduleId}_${chapterId}_${quizIndex}`;
+            if (!adaptiveData[currentEmployee.id]) {
+                adaptiveData[currentEmployee.id] = {};
+            }
+            
+            if (!adaptiveData[currentEmployee.id][key]) {
+                adaptiveData[currentEmployee.id][key] = {
+                    attempts: 0,
+                    correct: 0,
+                    lastScore: 0
+                };
+            }
+            
+            adaptiveData[currentEmployee.id][key].attempts++;
+            if (correct) {
+                adaptiveData[currentEmployee.id][key].correct++;
+            }
+            adaptiveData[currentEmployee.id][key].lastScore = correct ? 100 : 0;
+            
+            updateAdaptiveDashboard();
+        }
+
+        function updateAdaptiveDashboard() {
+            const weakAreas = [];
+            const strongAreas = [];
+            
+            if (adaptiveData[currentEmployee.id]) {
+                Object.keys(adaptiveData[currentEmployee.id]).forEach(key => {
+                    const data = adaptiveData[currentEmployee.id][key];
+                    const successRate = (data.correct / data.attempts) * 100;
+                    const parts = key.split('_');
+                    const moduleId = parseInt(parts[0]);
+                    const chapterId = parseInt(parts[1]);
+                    const quizIndex = parseInt(parts[2]);
+                    
+                    const module = trainingModules.find(m => m.id === moduleId);
+                    const chapter = module.chapters[chapterId];
+                    
+                    const area = {
+                        module: module.title,
+                        chapter: chapter.title,
+                        quiz: quizIndex + 1,
+                        rate: successRate,
+                        attempts: data.attempts
+                    };
+                    
+                    if (successRate < 70) {
+                        weakAreas.push(area);
+                    } else if (successRate >= 90) {
+                        strongAreas.push(area);
+                    }
+                });
+            }
+            
+            const weaknessDiv = document.getElementById('weaknessAreas');
+            const strengthDiv = document.getElementById('strengthAreas');
+            
+            if (weakAreas.length > 0) {
+                document.getElementById('adaptiveDashboard').classList.remove('hidden');
+                weaknessDiv.innerHTML = '<h4>🎯 Areas Needing Review:</h4>' + 
+                    weakAreas.map(area => 
+                        `<div>${area.module} - ${area.chapter} (Quiz ${area.quiz}) <span class="weakness-indicator">${Math.round(area.rate)}%</span></div>`
+                    ).join('');
+            } else {
+                weaknessDiv.innerHTML = '';
+            }
+            
+            if (strongAreas.length > 0) {
+                strengthDiv.innerHTML = '<h4>💪 Your Strengths:</h4>' + 
+                    strongAreas.map(area => 
+                        `<div>${area.module} - ${area.chapter} (Quiz ${area.quiz}) <span class="strength-indicator">${Math.round(area.rate)}%</span></div>`
+                    ).join('');
+            } else {
+                strengthDiv.innerHTML = '';
+            }
+            
+            // Update mastery score
+            let totalAttempts = 0;
+            let totalCorrect = 0;
+            
+            if (adaptiveData[currentEmployee.id]) {
+                Object.values(adaptiveData[currentEmployee.id]).forEach(data => {
+                    totalAttempts += data.attempts;
+                    totalCorrect += data.correct;
+                });
+            }
+            
+            const masteryScore = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 100;
+            document.getElementById('adaptiveScore').textContent = masteryScore + '%';
+        }
+
         function startAdaptiveReview() {
             showNotification('🎯 Starting review of your weak areas...', 'info');
-            // Could implement specific review logic here
         }
 
-        // Sharing functions
-        function copyTrainingURL() {
-            copyToClipboard(window.location.href, 'Training URL copied! 📋');
-        }
-
-        function generateQR() {
-            var url = window.location.href;
-            document.getElementById('shareUrl').textContent = url;
-            
-            var qrURL = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(url);
-            document.getElementById('qrContainer').innerHTML = `
-                <img src="${qrURL}" alt="QR Code" style="border: 2px solid var(--primary-color); border-radius: var(--border-radius-sm);" />
-                <p style="margin-top: 15px; color: var(--text-light);">Scan to access training on mobile</p>
-            `;
-            
-            document.getElementById('shareModal').style.display = 'flex';
-        }
-
-        function downloadSystem() {
-            var htmlContent = document.documentElement.outerHTML;
-            var blob = new Blob([htmlContent], { type: 'text/html' });
-            var url = window.URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = 'ess-a-bagel-training-complete.html';
-            a.click();
-            window.URL.revokeObjectURL(url);
-            showNotification('Training system downloaded! 💾', 'success');
-        }
-
-        function showEmailTemplate() {
-            var url = window.location.href;
-            document.getElementById('shareUrl').textContent = url;
-            var emailText = document.getElementById('emailTemplate').value.replace('[TRAINING_LINK]', url);
-            document.getElementById('emailTemplate').value = emailText;
-            document.getElementById('shareModal').style.display = 'flex';
-        }
-
-        function copyShareUrl() {
-            copyToClipboard(document.getElementById('shareUrl').textContent, 'URL copied! 📋');
-        }
-
-        function copyEmailTemplate() {
-            copyToClipboard(document.getElementById('emailTemplate').value, 'Email template copied! 📧');
-        }
-
-        function closeShareModal() {
-            document.getElementById('shareModal').style.display = 'none';
-        }
-
-        // Manager functions
+        // Manager Dashboard Functions
         function updateManagerStats() {
-            var totalEmps = Object.keys(employeeDatabase).length;
-            var completedEmps = 0;
-            var totalScores = 0;
-            var totalSessions = 0;
+            const totalEmps = Object.keys(employeeDatabase).length;
+            let completedEmps = 0;
+            let totalScores = 0;
+            let totalSessions = 0;
             
-            Object.values(employeeDatabase).forEach(function(emp) {
-                var totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
+            Object.values(employeeDatabase).forEach(emp => {
+                const totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
                 if (emp.completedChapters >= totalChapters) completedEmps++;
                 totalScores += emp.totalPoints || 0;
                 totalSessions += (emp.sessions || []).length;
@@ -2672,7 +2332,7 @@ Thank you!
         }
 
         function renderEmployeesList() {
-            var container = document.getElementById('employeesList');
+            const container = document.getElementById('employeesList');
             container.innerHTML = '';
             
             if (Object.keys(employeeDatabase).length === 0) {
@@ -2680,13 +2340,13 @@ Thank you!
                 return;
             }
             
-            Object.values(employeeDatabase).forEach(function(emp) {
-                var totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
-                var progressPercent = Math.round(((emp.completedChapters || 0) / totalChapters) * 100);
-                var status = progressPercent >= 100 ? 'Complete' : progressPercent > 0 ? 'In Progress' : 'Not Started';
-                var statusColor = progressPercent >= 100 ? 'var(--secondary-color)' : progressPercent > 0 ? 'var(--accent-color)' : 'var(--danger-color)';
+            Object.values(employeeDatabase).forEach(emp => {
+                const totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
+                const progressPercent = Math.round(((emp.completedChapters || 0) / totalChapters) * 100);
+                const status = progressPercent >= 100 ? 'Complete' : progressPercent > 0 ? 'In Progress' : 'Not Started';
+                const statusColor = progressPercent >= 100 ? 'var(--secondary-color)' : progressPercent > 0 ? 'var(--accent-color)' : 'var(--danger-color)';
                 
-                var card = document.createElement('div');
+                const card = document.createElement('div');
                 card.className = 'employee-card';
                 card.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -2714,11 +2374,11 @@ Thank you!
         }
 
         function filterEmployees() {
-            var search = document.getElementById('searchEmployee').value.toLowerCase();
-            var cards = document.querySelectorAll('.employee-card');
+            const search = document.getElementById('searchEmployee').value.toLowerCase();
+            const cards = document.querySelectorAll('.employee-card');
             
-            cards.forEach(function(card) {
-                var text = card.textContent.toLowerCase();
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
                 card.style.display = text.includes(search) ? 'block' : 'none';
             });
         }
@@ -2729,24 +2389,35 @@ Thank you!
             showNotification('Data refreshed! 🔄', 'success');
         }
 
+        function clearAllData() {
+            showCustomConfirm('Are you sure you want to clear ALL employee training data? This cannot be undone!', (confirmed) => {
+                if (confirmed) {
+                    employeeDatabase = {};
+                    adaptiveData = {};
+                    renderEmployeesList();
+                    updateManagerStats();
+                    showNotification('All data cleared! 🗑️', 'warning');
+                }
+            });
+        }
+
         function exportAllData() {
-            var data = 'Employee ID,Name,Department,Chapters Completed,Total Points,Status,Mastery Level\n';
-            Object.values(employeeDatabase).forEach(function(emp) {
-                var totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
-                var progressPercent = Math.round(((emp.completedChapters || 0) / totalChapters) * 100);
-                var status = progressPercent >= 100 ? 'Complete' : progressPercent > 0 ? 'In Progress' : 'Not Started';
+            let data = 'Employee ID,Name,Department,Chapters Completed,Total Points,Status,Mastery Level\n';
+            Object.values(employeeDatabase).forEach(emp => {
+                const totalChapters = trainingModules.reduce((sum, m) => sum + m.chapters.length, 0);
+                const progressPercent = Math.round(((emp.completedChapters || 0) / totalChapters) * 100);
+                const status = progressPercent >= 100 ? 'Complete' : progressPercent > 0 ? 'In Progress' : 'Not Started';
                 
-                // Calculate mastery level from adaptive data
-                var masteryLevel = 'Not Assessed';
+                let masteryLevel = 'Not Assessed';
                 if (adaptiveData[emp.id]) {
-                    var totalAttempts = 0;
-                    var totalCorrect = 0;
-                    Object.values(adaptiveData[emp.id]).forEach(function(data) {
+                    let totalAttempts = 0;
+                    let totalCorrect = 0;
+                    Object.values(adaptiveData[emp.id]).forEach(data => {
                         totalAttempts += data.attempts;
                         totalCorrect += data.correct;
                     });
                     if (totalAttempts > 0) {
-                        var masteryScore = Math.round((totalCorrect / totalAttempts) * 100);
+                        const masteryScore = Math.round((totalCorrect / totalAttempts) * 100);
                         masteryLevel = masteryScore >= 90 ? 'Expert' : masteryScore >= 80 ? 'Proficient' : masteryScore >= 70 ? 'Developing' : 'Needs Review';
                     }
                 }
@@ -2754,9 +2425,9 @@ Thank you!
                 data += `${emp.id},${emp.name},${emp.department},${emp.completedChapters || 0},${emp.totalPoints || 0},${status},${masteryLevel}\n`;
             });
             
-            var blob = new Blob([data], { type: 'text/csv' });
-            var url = window.URL.createObjectURL(blob);
-            var a = document.createElement('a');
+            const blob = new Blob([data], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
             a.href = url;
             a.download = 'ess-a-bagel-training-report.csv';
             a.click();
@@ -2764,12 +2435,62 @@ Thank you!
             showNotification('Training report exported! 📥', 'success');
         }
 
-        // Utility functions
+        // Sharing Functions
+        function copyTrainingURL() {
+            copyToClipboard(window.location.href, 'Training URL copied! 📋');
+        }
+
+        function generateQR() {
+            const url = window.location.href;
+            document.getElementById('shareUrl').textContent = url;
+            
+            const qrURL = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(url);
+            document.getElementById('qrContainer').innerHTML = `
+                <img src="${qrURL}" alt="QR Code" style="border: 2px solid var(--primary-color); border-radius: var(--border-radius-sm);" />
+                <p style="margin-top: 15px; color: var(--text-light);">Scan to access training on mobile</p>
+            `;
+            
+            document.getElementById('shareModal').classList.remove('hidden');
+        }
+
+        function downloadSystem() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ess-a-bagel-training-complete.html';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            showNotification('Training system downloaded! 💾', 'success');
+        }
+
+        function showEmailTemplate() {
+            const url = window.location.href;
+            document.getElementById('shareUrl').textContent = url;
+            const emailText = document.getElementById('emailTemplate').value.replace('[TRAINING_LINK]', url);
+            document.getElementById('emailTemplate').value = emailText;
+            document.getElementById('shareModal').classList.remove('hidden');
+        }
+
+        function copyShareUrl() {
+            copyToClipboard(document.getElementById('shareUrl').textContent, 'URL copied! 📋');
+        }
+
+        function copyEmailTemplate() {
+            copyToClipboard(document.getElementById('emailTemplate').value, 'Email template copied! 📧');
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareModal').classList.add('hidden');
+        }
+
+        // Utility Functions
         function copyToClipboard(text, message) {
             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(function() {
+                navigator.clipboard.writeText(text).then(() => {
                     showNotification(message, 'success');
-                }).catch(function() {
+                }).catch(() => {
                     fallbackCopy(text, message);
                 });
             } else {
@@ -2778,7 +2499,7 @@ Thank you!
         }
 
         function fallbackCopy(text, message) {
-            var textArea = document.createElement('textarea');
+            const textArea = document.createElement('textarea');
             textArea.value = text;
             textArea.style.position = 'fixed';
             textArea.style.left = '-999999px';
@@ -2796,7 +2517,7 @@ Thank you!
         }
 
         function showNotification(message, type) {
-            var notification = document.createElement('div');
+            const notification = document.createElement('div');
             notification.className = 'notification ' + type;
             notification.textContent = message;
             
@@ -2809,31 +2530,22 @@ Thank you!
             }, 4000);
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('currentURL').textContent = 'Current URL: ' + window.location.href;
-            
-            // Add sample employee data
-            employeeDatabase['EMP001'] = {
-                id: 'EMP001',
-                name: 'Sarah Johnson',
-                department: 'Front Counter',
-                progress: {1: {completed: true, chaptersCompleted: 3}, 2: {completed: false, chaptersCompleted: 1}},
-                totalPoints: 120,
-                completedChapters: 4,
-                sessions: [{startTime: new Date().toISOString(), pointsEarned: 120}]
-            };
-            
-            employeeDatabase['EMP002'] = {
-                id: 'EMP002',
-                name: 'Mike Chen',
-                department: 'Kitchen',
-                progress: {1: {completed: true, chaptersCompleted: 3}},
-                totalPoints: 90,
-                completedChapters: 3,
-                sessions: [{startTime: new Date().toISOString(), pointsEarned: 90}]
-            };
-        });
+        function showCustomConfirm(message, callback) {
+            document.getElementById('confirmMessage').textContent = message;
+            document.getElementById('customConfirm').classList.remove('hidden');
+            pendingConfirmCallback = callback;
+        }
+
+        function confirmAction(confirmed) {
+            document.getElementById('customConfirm').classList.add('hidden');
+            if (pendingConfirmCallback) {
+                pendingConfirmCallback(confirmed);
+                pendingConfirmCallback = null;
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 </html>
